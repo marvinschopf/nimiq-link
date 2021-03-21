@@ -33,7 +33,7 @@ type Props = {
 	domains: string[];
 	mainDomain: string;
 	hcaptchaSiteKey: string;
-	enableCaptcha: boolean;
+	enableHcaptcha: boolean;
 	appTitle: string;
 };
 
@@ -60,12 +60,12 @@ const Index: NextPage<Props> = (props: Props) => {
 					event.preventDefault();
 					setIsLoading(true);
 					setError("");
-					if (props.enableCaptcha && hcaptchaToken.length === 0) {
+					if (props.enableHcaptcha && hcaptchaToken.length === 0) {
 						setIsLoading(false);
 						setError("Please fill in the captcha.");
 						return;
 					}
-					if (props.enableCaptcha) {
+					if (props.enableHcaptcha) {
 						setHcaptchaToken("");
 						captchaRef.current.resetCaptcha();
 					}
@@ -183,7 +183,7 @@ const Index: NextPage<Props> = (props: Props) => {
 							isUnderform={true}
 						>
 							<Card.Body>
-								{props.enableCaptcha && (
+								{props.enableHcaptcha && (
 									<div
 										style={{
 											margin: "auto",
@@ -324,7 +324,8 @@ export async function getStaticProps(context) {
 			domains,
 			mainDomain: process.env.MAIN_DOMAIN,
 			hcaptchaSiteKey: process.env.HCAPTCHA_SITE_KEY,
-			enableCaptcha: process.env.ENABLE_HCAPTCHA == "true" ? true : false,
+			enableHcaptcha:
+				process.env.ENABLE_HCAPTCHA == "true" ? true : false,
 			appTitle: process.env.APP_TITLE,
 		},
 	};
