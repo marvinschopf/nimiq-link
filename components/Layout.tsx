@@ -83,7 +83,7 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 						target="_blank"
 						rel="noopener"
 					>
-						<pre>{props.version ? props.version : "unknown"}</pre>
+						<code>{props.version ? props.version : "unknown"}</code>
 					</a>{" "}
 					<a
 						className="nq-button-pill green"
