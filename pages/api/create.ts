@@ -49,7 +49,7 @@ function generatePassword(): string {
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-	const hcaptchaEnabled: boolean = process.env.ENABLE_CAPTCHA ? true : false;
+	const hcaptchaEnabled: boolean = process.env.ENABLE_HCAPTCHA ? true : false;
 	const domains: string[] = process.env.DOMAINS.split(",");
 	if (req.method === "POST") {
 		if (req.body) {

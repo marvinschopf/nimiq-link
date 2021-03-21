@@ -324,7 +324,7 @@ export async function getStaticProps(context) {
 			domains,
 			mainDomain: process.env.MAIN_DOMAIN,
 			hcaptchaSiteKey: process.env.HCAPTCHA_SITE_KEY,
-			enableCaptcha: process.env.ENABLE_CAPTCHA == "true" ? true : false,
+			enableCaptcha: process.env.ENABLE_HCAPTCHA == "true" ? true : false,
 			appTitle: process.env.APP_TITLE,
 		},
 	};
