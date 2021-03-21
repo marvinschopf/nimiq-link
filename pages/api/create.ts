@@ -45,7 +45,7 @@ function generateSlug(length = parseInt(process.env.SHORT_LENGTH)): string {
 }
 
 function generatePassword(): string {
-	return randomBytes(256).toString("hex");
+	return randomBytes(16).toString("hex");
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
