@@ -53,6 +53,12 @@ const Index: NextPage<Props> = (props: Props) => {
 				onSubmit={async (event) => {
 					event.preventDefault();
 					setIsLoading(true);
+					setError("");
+					if (props.enableCaptcha && hcaptchaToken.length === 0) {
+						setIsLoading(false);
+						setError("Please fill in the captcha.");
+						return;
+					}
 					if (props.enableCaptcha) {
 						setHcaptchaToken("");
 						captchaRef.current.resetCaptcha();
