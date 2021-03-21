@@ -1,16 +1,41 @@
-html,
+header {
+	text-align: center;
+	padding: 5rem 0 7rem;
+	margin-bottom: 5rem;
+}
+
+main,
+footer,
+main > .nq-card {
+	width: 100%;
+	max-width: 1200px;
+	margin: auto;
+}
+
+@media (max-width: 1200px) {
+	main,
+	footer,
+	main > .nq-card {
+		padding-left: 6px;
+		padding-right: 6px;
+	}
+}
+
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	background-color: var(--nimiq-blue);
+	color: #ffffff;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+input,
+select {
+	width: 100%;
 }
 
-* {
-  box-sizing: border-box;
+.card-underform {
+	margin: auto;
+	width: 100%;
+}
+
+.card-underform * {
+	max-width: 100%;
 }
