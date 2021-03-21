@@ -69,6 +69,7 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 					<Card.Body>{props.children}</Card.Body>
 				</Card.Card>
 			</main>
+			<br />
 			<footer>
 				<a
 					className="nq-button-pill green"
@@ -83,8 +84,9 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 						href="https://wallet.nimiq.com/nimiq:NQ848KE9H2L9QSNRYMSTGQML7V5R92FMJC9N"
 						target="_blank"
 						rel="noopener"
+						className="nq-button-pill orange"
 					>
-						<img src="https://www.nimiq.com/accept-donations/img/donationBtnImg/orange-small.svg" />
+						Donate NIM
 					</a>
 				</div>
 			</footer>
