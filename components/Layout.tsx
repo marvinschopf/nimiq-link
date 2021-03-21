@@ -72,7 +72,7 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 			<br />
 			<footer>
 				<a
-					className="float-lg-start nq-button-pill green"
+					className="float-lg-left nq-button-pill green"
 					target="_blank"
 					rel="noopener"
 					href="https://github.com/marvinschopf/nimiq-link"
@@ -83,7 +83,7 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 					href="https://wallet.nimiq.com/nimiq:NQ848KE9H2L9QSNRYMSTGQML7V5R92FMJC9N"
 					target="_blank"
 					rel="noopener"
-					className="float-lg-end nq-button-pill orange"
+					className="float-lg-right nq-button-pill orange"
 				>
 					Donate NIM
 				</a>
