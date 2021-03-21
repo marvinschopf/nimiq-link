@@ -17,7 +17,7 @@
  */
 
 import { NextPage } from "next";
-import { useState, useRef, Ref } from "react";
+import { useState, useRef, useEffect, Ref, MutableRefObject } from "react";
 import Layout from "../components/Layout";
 
 import Row from "react-bootstrap/Row";
@@ -25,6 +25,7 @@ import Col from "react-bootstrap/Col";
 
 import isURL from "validator/lib/isURL";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { WidgetInstance as FCWidgetInstance } from "friendly-challenge";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Card from "../components/Card";
 import H1 from "../components/H1";
@@ -35,6 +36,8 @@ type Props = {
 	hcaptchaSiteKey: string;
 	enableHcaptcha: boolean;
 	appTitle: string;
+	enableFrcCaptcha: boolean;
+	friendlyCaptchaKey: string;
 };
 
 const Index: NextPage<Props> = (props: Props) => {
@@ -42,12 +45,43 @@ const Index: NextPage<Props> = (props: Props) => {
 	const [destination, setDestination] = useState("");
 	const [success, setSuccess] = useState(false);
 	const [hcaptchaToken, setHcaptchaToken] = useState("");
+	const [friendlyCaptchaToken, setFriendlyCaptchaToken] = useState("");
 	const [domain, setDomain] = useState(props.mainDomain);
 	const [isLoading, setIsLoading] = useState(false);
 	const [shortUrl, setShortUrl] = useState("");
 	const [editPassword, setEditPassword] = useState("");
 
-	const captchaRef: Ref<HCaptcha> = useRef(null);
+	const hcaptchaRef: Ref<HCaptcha> = useRef(null);
+	const friendlyCaptchaRef: MutableRefObject<FCWidgetInstance> = useRef(null);
+	const friendlyCaptchaContainerRef: Ref<any> = useRef(null);
+
+	useEffect(() => {
+		if (props.enableFrcCaptcha && !props.enableHcaptcha) {
+			if (
+				!friendlyCaptchaRef.current &&
+				friendlyCaptchaContainerRef.current
+			) {
+				friendlyCaptchaRef.current = new FCWidgetInstance(
+					friendlyCaptchaContainerRef.current,
+					{
+						startMode: "auto",
+						doneCallback: (solution: string) => {
+							setFriendlyCaptchaToken(solution);
+						},
+						errorCallback: (error) => {
+							setFriendlyCaptchaToken("");
+							setError(error);
+						},
+					}
+				);
+			}
+
+			return () => {
+				if (friendlyCaptchaRef.current != undefined)
+					friendlyCaptchaRef.current.reset();
+			};
+		}
+	}, [friendlyCaptchaContainerRef]);
 
 	return (
 		<Layout
@@ -65,9 +99,22 @@ const Index: NextPage<Props> = (props: Props) => {
 						setError("Please fill in the captcha.");
 						return;
 					}
+					if (
+						props.enableFrcCaptcha &&
+						!props.enableHcaptcha &&
+						friendlyCaptchaToken.length === 0
+					) {
+						setIsLoading(false);
+						setError("Please fill in the captcha.");
+						return;
+					}
 					if (props.enableHcaptcha) {
 						setHcaptchaToken("");
-						captchaRef.current.resetCaptcha();
+						hcaptchaRef.current.resetCaptcha();
+					}
+					if (props.enableFrcCaptcha && !props.enableHcaptcha) {
+						setFriendlyCaptchaToken("");
+						friendlyCaptchaRef.current.reset();
 					}
 					if (domain.length === 0 || destination.length === 0) {
 						setIsLoading(false);
@@ -86,13 +133,19 @@ const Index: NextPage<Props> = (props: Props) => {
 						setError("Please select a valid short domain.");
 						return;
 					}
+					let requestParams: { [key: string]: string } = {
+						destination: destination,
+						domain: domain,
+					};
+					if (props.enableHcaptcha) {
+						requestParams.hcaptchaToken = hcaptchaToken;
+					}
+					if (props.enableFrcCaptcha && !props.enableHcaptcha) {
+						requestParams.friendlyCaptchaToken = friendlyCaptchaToken;
+					}
 					const response = await fetch("/api/create", {
 						method: "POST",
-						body: JSON.stringify({
-							destination: destination,
-							domain: domain,
-							hcaptchaToken: hcaptchaToken,
-						}),
+						body: JSON.stringify(requestParams),
 					});
 					if (response.status === 200) {
 						const json = await response.json();
@@ -202,11 +255,31 @@ const Index: NextPage<Props> = (props: Props) => {
 											onError={() => {
 												setHcaptchaToken("");
 											}}
-											ref={captchaRef}
+											ref={hcaptchaRef}
 										/>
 										<br />
 									</div>
 								)}
+								{props.enableFrcCaptcha &&
+									!props.enableHcaptcha && (
+										<div
+											style={{
+												margin: "auto",
+												textAlign: "center",
+												display: "table",
+											}}
+										>
+											<div
+												ref={
+													friendlyCaptchaContainerRef
+												}
+												className="frc-captcha"
+												data-sitekey={
+													props.friendlyCaptchaKey
+												}
+											/>
+										</div>
+									)}
 								<button
 									type="submit"
 									className="nq-button gold"
@@ -326,6 +399,9 @@ export async function getStaticProps(context) {
 			hcaptchaSiteKey: process.env.HCAPTCHA_SITE_KEY,
 			enableHcaptcha:
 				process.env.ENABLE_HCAPTCHA == "true" ? true : false,
+			enableFrcCaptcha:
+				process.env.ENABLE_FRIENDLYCAPTCHA == "true" ? true : false,
+			friendlyCaptchaKey: process.env.FRIENDLY_CAPTCHA_SITE_KEY,
 			appTitle: process.env.APP_TITLE,
 		},
 	};
