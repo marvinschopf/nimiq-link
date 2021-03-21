@@ -75,14 +75,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 					: "";
 				if (domains.includes(domain)) {
 					if (hcaptchaEnabled) {
-						const responseCaptcha = await fetch("", {
-							method: "POST",
-							headers: {
-								"Content-type":
-									"application/x-www-form-urlencoded",
-							},
-							body: `response=${hcaptchaToken}&secret=${process.env.HCAPTCHA_SECRET_KEY}`,
-						});
+						const responseCaptcha = await fetch(
+							"https://hcaptcha.com/siteverify",
+							{
+								method: "POST",
+								headers: {
+									"Content-type":
+										"application/x-www-form-urlencoded",
+								},
+								body: `response=${hcaptchaToken}&secret=${process.env.HCAPTCHA_SECRET_KEY}`,
+							}
+						);
 						if (responseCaptcha.status === 200) {
 							const jsonCaptcha = await responseCaptcha.json();
 							if (!jsonCaptcha.success) {
