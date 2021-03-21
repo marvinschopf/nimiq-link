@@ -72,23 +72,21 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 			<br />
 			<footer>
 				<a
-					className="nq-button-pill green"
+					className="float-lg-start nq-button-pill green"
 					target="_blank"
 					rel="noopener"
 					href="https://github.com/marvinschopf/nimiq-link"
 				>
 					GitHub
 				</a>
-				<div style={{ float: "right" }}>
-					<a
-						href="https://wallet.nimiq.com/nimiq:NQ848KE9H2L9QSNRYMSTGQML7V5R92FMJC9N"
-						target="_blank"
-						rel="noopener"
-						className="nq-button-pill orange"
-					>
-						Donate NIM
-					</a>
-				</div>
+				<a
+					href="https://wallet.nimiq.com/nimiq:NQ848KE9H2L9QSNRYMSTGQML7V5R92FMJC9N"
+					target="_blank"
+					rel="noopener"
+					className="float-lg-end nq-button-pill orange"
+				>
+					Donate NIM
+				</a>
 			</footer>
 		</div>
 	);
