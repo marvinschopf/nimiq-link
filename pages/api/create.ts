@@ -121,9 +121,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 								},
 								body: JSON.stringify({
 									solution: friendlyCaptchaToken,
-									secret: process.env.FRIENDLY_CAPTCHA_SECRET,
+									secret: process.env.FRIENDLYCAPTCHA_SECRET,
 									sitekey:
-										process.env.FRIENDLY_CAPTCHA_SITE_KEY,
+										process.env.FRIENDLYCAPTCHA_SITE_KEY,
 								}),
 							}
 						);

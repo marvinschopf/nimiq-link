@@ -405,8 +405,8 @@ export async function getStaticProps(context) {
 				process.env.ENABLE_HCAPTCHA == "true" ? true : false,
 			enableFrcCaptcha:
 				process.env.ENABLE_FRIENDLYCAPTCHA == "true" ? true : false,
-			friendlyCaptchaKey: process.env.FRIENDLY_CAPTCHA_SITE_KEY
-				? process.env.FRIENDLY_CAPTCHA_SITE_KEY
+			friendlyCaptchaKey: process.env.FRIENDLYCAPTCHA_SITE_KEY
+				? process.env.FRIENDLYCAPTCHA_SITE_KEY
 				: "",
 			appTitle: process.env.APP_TITLE ? process.env.APP_TITLE : "",
 		},
