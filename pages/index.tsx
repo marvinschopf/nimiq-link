@@ -30,6 +30,7 @@ type Props = {
 	domains: string[];
 	mainDomain: string;
 	hcaptchaSiteKey: string;
+	enableCaptcha: boolean;
 };
 
 const Index: NextPage<Props> = (props: Props) => {
@@ -91,27 +92,29 @@ const Index: NextPage<Props> = (props: Props) => {
 							isUnderform={true}
 						>
 							<Card.Body>
-								<div
-									style={{
-										margin: "auto",
-										textAlign: "center",
-										display: "table",
-									}}
-								>
-									<HCaptcha
-										sitekey={props.hcaptchaSiteKey}
-										onVerify={(token: string) => {
-											setHcaptchaToken(token);
+								{props.enableCaptcha && (
+									<div
+										style={{
+											margin: "auto",
+											textAlign: "center",
+											display: "table",
 										}}
-										onExpire={() => {
-											setHcaptchaToken("");
-										}}
-										onError={() => {
-											setHcaptchaToken("");
-										}}
-									/>
-								</div>
-								<br />
+									>
+										<HCaptcha
+											sitekey={props.hcaptchaSiteKey}
+											onVerify={(token: string) => {
+												setHcaptchaToken(token);
+											}}
+											onExpire={() => {
+												setHcaptchaToken("");
+											}}
+											onError={() => {
+												setHcaptchaToken("");
+											}}
+										/>
+										<br />
+									</div>
+								)}
 								<button
 									type="submit"
 									className="nq-button gold"
@@ -139,6 +142,7 @@ export async function getStaticProps(context) {
 			domains,
 			mainDomain: process.env.MAIN_DOMAIN,
 			hcaptchaSiteKey: process.env.HCAPTCHA_SITE_KEY,
+			enableCaptcha: process.env.ENABLE_CAPTCHA == "true" ? true : false,
 		},
 	};
 }

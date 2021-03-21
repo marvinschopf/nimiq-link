@@ -63,3 +63,4 @@ jobs:
                   DOMAINS: "nmlnk.mrv.wtf"
                   MAIN_DOMAIN: "nmlnk.mrv.wtf"
                   HCAPTCHA_SITE_KEY: "df9dcd0d-61a1-4b74-97e8-8407e6ba959e"
+                  ENABLE_CAPTCHA: "true"
