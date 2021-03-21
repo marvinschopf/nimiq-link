@@ -23,11 +23,17 @@ import Layout from "../components/Layout";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+import dynamic from "next/dynamic";
+
 import isURL from "validator/lib/isURL";
-import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Card from "../components/Card";
 import H1 from "../components/H1";
+
+let HCaptcha: any;
+if (process.env.ENABLE_HCAPTCHA == "true") {
+	HCaptcha = dynamic(() => import("@hcaptcha/react-hcaptcha"));
+}
 
 type Props = {
 	domains: string[];
@@ -50,7 +56,7 @@ const Index: NextPage<Props> = (props: Props) => {
 	const [shortUrl, setShortUrl] = useState("");
 	const [editPassword, setEditPassword] = useState("");
 
-	const hcaptchaRef: Ref<HCaptcha> = useRef(null);
+	const hcaptchaRef: Ref<any> = useRef(null);
 	const friendlyCaptchaRef: MutableRefObject<any> = useRef(null);
 	const friendlyCaptchaContainerRef: Ref<any> = useRef(null);
 
