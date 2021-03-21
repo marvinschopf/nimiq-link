@@ -20,6 +20,7 @@ import { FunctionComponent, ReactNode } from "react";
 
 type CardProps = {
 	children: ReactNode;
+	className?: string;
 };
 
 type CardHeaderProps = {
@@ -31,7 +32,15 @@ type CardBodyProps = {
 };
 
 export const Card: FunctionComponent<CardProps> = (props: CardProps) => {
-	return <div className="nq-card">{props.children}</div>;
+	return (
+		<div
+			className={
+				!props.className ? "nq-card" : `nq-card ${props.className}`
+			}
+		>
+			{props.children}
+		</div>
+	);
 };
 
 export const Header: FunctionComponent<CardHeaderProps> = (

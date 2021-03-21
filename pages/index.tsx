@@ -23,14 +23,20 @@ import Layout from "../components/Layout";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+import Card from "../components/Card";
+
 type Props = {
 	domains: string[];
 	mainDomain: string;
+	hcaptchaSiteKey: string;
 };
 
 const Index: NextPage<Props> = (props: Props) => {
 	const [error, setError] = useState("");
 	const [destination, setDestination] = useState("");
+	const [success, setSuccess] = useState(false);
+	const [hcaptchaToken, setHcaptchaToken] = useState("");
 
 	return (
 		<Layout cardTitle="Create short link" error={error}>
@@ -77,6 +83,40 @@ const Index: NextPage<Props> = (props: Props) => {
 						</label>
 					</Col>
 				</Row>
+				<br />
+				<Row>
+					<Col lg={success ? 6 : 12} md={12} sm={12}>
+						<Card.Card className="card-underform">
+							<Card.Body>
+								<div style={{ margin: "auto" }}>
+									<HCaptcha
+										sitekey={props.hcaptchaSiteKey}
+										onVerify={(token: string) => {
+											setHcaptchaToken(token);
+										}}
+										onExpire={() => {
+											setHcaptchaToken("");
+										}}
+										onError={() => {
+											setHcaptchaToken("");
+										}}
+									/>
+								</div>
+								<br />
+								<button
+									type="submit"
+									className="nq-button gold"
+									style={{ width: "100%" }}
+								>
+									<svg className="nq-icon">
+										<use xlinkHref="/nimiq-style.icons.svg#nq-checkmark-small" />
+									</svg>
+									&nbsp; Create
+								</button>
+							</Card.Body>
+						</Card.Card>
+					</Col>
+				</Row>
 			</form>
 		</Layout>
 	);
@@ -84,13 +124,12 @@ const Index: NextPage<Props> = (props: Props) => {
 
 export async function getStaticProps(context) {
 	let domains: string[] = [];
-	let mainDomain: string = "";
 	domains = process.env.DOMAINS.split(",");
-	mainDomain = process.env.MAIN_DOMAIN;
 	return {
 		props: {
 			domains,
-			mainDomain,
+			mainDomain: process.env.MAIN_DOMAIN,
+			hcaptchaSiteKey: process.env.HCAPTCHA_SITE_KEY,
 		},
 	};
 }
