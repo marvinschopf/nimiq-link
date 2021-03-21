@@ -73,19 +73,22 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 			<br />
 			<footer>
 				<div className="float-lg-left float-md-left">
-					Version:{" "}
-					<a
-						href={
-							props.version
-								? `https://github.com/marvinschopf/nimiq-link/commit/${props.version}`
-								: "https://github.com/marvinschopf/nimiq-link"
-						}
-						target="_blank"
-						rel="noopener"
-						className="nq-button-s light-blue"
-					>
-						<code>{props.version ? props.version : "unknown"}</code>
-					</a>{" "}
+					<span className="nq-button-s light-blue">
+						Version:{" "}
+						<a
+							href={
+								props.version
+									? `https://github.com/marvinschopf/nimiq-link/commit/${props.version}`
+									: "https://github.com/marvinschopf/nimiq-link"
+							}
+							target="_blank"
+							rel="noopener"
+						>
+							<code>
+								{props.version ? props.version : "unknown"}
+							</code>
+						</a>
+					</span>{" "}
 					<a
 						className="nq-button-pill green"
 						target="_blank"
