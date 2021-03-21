@@ -78,40 +78,60 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 						<H1>Short link</H1>
 					</Card.Header>
 					<Card.Body>
-						<CountdownCircleTimer
-							isPlaying
-							duration={props.redirectDelay}
-							colors={[
-								["#004777", 0.33],
-								["#F7B801", 0.33],
-								["#A30000", 0.33],
-							]}
-							onComplete={() => {
-								if (typeof window !== "undefined") {
-									window.location.replace(props.destination);
-								}
+						<div
+							style={{
+								position: "absolute",
+								left: "50%",
+								marginRight: "-50%",
+								transform: "translate(-50%, -50%)",
 							}}
 						>
-							{({ remainingTime }) => {
-								return (
-									<div className="timer">
-										<div className="text">
-											Redirecting in
+							<CountdownCircleTimer
+								isPlaying
+								duration={props.redirectDelay}
+								colors={[
+									["#004777", 0.33],
+									["#F7B801", 0.33],
+									["#A30000", 0.33],
+								]}
+								onComplete={() => {
+									if (typeof window !== "undefined") {
+										window.location.replace(
+											props.destination
+										);
+									}
+								}}
+							>
+								{({ remainingTime }) => {
+									return (
+										<div className="timer">
+											<div className="text">
+												Redirecting in
+											</div>
+											<div className="value">
+												{remainingTime}
+											</div>
+											<div className="text">seconds</div>
 										</div>
-										<div className="value">
-											{remainingTime}
-										</div>
-										<div className="text">seconds</div>
-									</div>
-								);
-							}}
-						</CountdownCircleTimer>
+									);
+								}}
+							</CountdownCircleTimer>
+						</div>
 					</Card.Body>
 				</Col>
 				<Col lg={6} md={12} sm={12}>
 					<Card.Card className="card-full">
 						<Card.Body>
-							<Fact />
+							<div
+								style={{
+									position: "absolute",
+									left: "50%",
+									marginRight: "-50%",
+									transform: "translate(-50%, -50%)",
+								}}
+							>
+								<Fact />
+							</div>
 						</Card.Body>
 					</Card.Card>
 				</Col>
