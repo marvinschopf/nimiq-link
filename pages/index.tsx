@@ -110,8 +110,8 @@ const Index: NextPage<Props> = (props: Props) => {
 								>
 									<svg className="nq-icon">
 										<use xlinkHref="/nimiq-style.icons.svg#nq-checkmark-small" />
-									</svg>
-									&nbsp; Create
+									</svg>{" "}
+									Create
 								</button>
 							</Card.Body>
 						</Card.Card>
