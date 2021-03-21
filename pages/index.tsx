@@ -404,14 +404,18 @@ export async function getStaticProps(context) {
 	return {
 		props: {
 			domains,
-			mainDomain: process.env.MAIN_DOMAIN,
-			hcaptchaSiteKey: process.env.HCAPTCHA_SITE_KEY,
+			mainDomain: process.env.MAIN_DOMAIN ? process.env.MAIN_DOMAIN : "",
+			hcaptchaSiteKey: process.env.HCAPTCHA_SITE_KEY
+				? process.env.HCAPTCHA_SITE_KEY
+				: "",
 			enableHcaptcha:
 				process.env.ENABLE_HCAPTCHA == "true" ? true : false,
 			enableFrcCaptcha:
 				process.env.ENABLE_FRIENDLYCAPTCHA == "true" ? true : false,
-			friendlyCaptchaKey: process.env.FRIENDLY_CAPTCHA_SITE_KEY,
-			appTitle: process.env.APP_TITLE,
+			friendlyCaptchaKey: process.env.FRIENDLY_CAPTCHA_SITE_KEY
+				? process.env.FRIENDLY_CAPTCHA_SITE_KEY
+				: "",
+			appTitle: process.env.APP_TITLE ? process.env.APP_TITLE : "",
 		},
 	};
 }
