@@ -25,10 +25,19 @@ import Col from "react-bootstrap/Col";
 
 import isURL from "validator/lib/isURL";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import { WidgetInstance as FCWidgetInstance } from "friendly-challenge";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Card from "../components/Card";
 import H1 from "../components/H1";
+
+import dynamic from "next/dynamic";
+
+let FriendlyCaptcha: any;
+
+if (process.env.ENABLE_FRIENDLYCAPTCHA) {
+	FriendlyCaptcha = dynamic(() => import("friendly-challenge"), {
+		ssr: false,
+	});
+}
 
 type Props = {
 	domains: string[];
@@ -52,7 +61,7 @@ const Index: NextPage<Props> = (props: Props) => {
 	const [editPassword, setEditPassword] = useState("");
 
 	const hcaptchaRef: Ref<HCaptcha> = useRef(null);
-	const friendlyCaptchaRef: MutableRefObject<FCWidgetInstance> = useRef(null);
+	const friendlyCaptchaRef: MutableRefObject<any> = useRef(null);
 	const friendlyCaptchaContainerRef: Ref<any> = useRef(null);
 
 	useEffect(() => {
@@ -61,7 +70,7 @@ const Index: NextPage<Props> = (props: Props) => {
 				!friendlyCaptchaRef.current &&
 				friendlyCaptchaContainerRef.current
 			) {
-				friendlyCaptchaRef.current = new FCWidgetInstance(
+				friendlyCaptchaRef.current = new FriendlyCaptcha.WidgetInstance(
 					friendlyCaptchaContainerRef.current,
 					{
 						startMode: "auto",
