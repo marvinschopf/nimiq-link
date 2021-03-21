@@ -22,6 +22,7 @@ import { randomBytes } from "crypto";
 import argon2 from "argon2";
 import { v4 as uuidv4 } from "uuid";
 import isURL from "validator/lib/isURL";
+import tldjs from "tldjs";
 import fetch from "node-fetch";
 import serverlessMysql from "serverless-mysql";
 
@@ -145,6 +146,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 						}
 					}
 					if (!isURL(destination)) {
+						res.status(400).json({
+							success: false,
+							error: "Destination is not a valid URL.",
+						});
+						return;
+					}
+					const parsedTLD = tldjs.parse(destination);
+					if (
+						!parsedTLD.isValid ||
+						parsedTLD.isIp ||
+						!parsedTLD.tldExists
+					) {
 						res.status(400).json({
 							success: false,
 							error: "Destination is not a valid URL.",
