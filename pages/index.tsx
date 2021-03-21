@@ -17,14 +17,16 @@
  */
 
 import { NextPage } from "next";
-import { useState } from "react";
+import { useState, useRef, Ref } from "react";
 import Layout from "../components/Layout";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import Card from "../components/Card";
+import H1 from "../components/H1";
 
 type Props = {
 	domains: string[];
@@ -38,12 +40,67 @@ const Index: NextPage<Props> = (props: Props) => {
 	const [destination, setDestination] = useState("");
 	const [success, setSuccess] = useState(false);
 	const [hcaptchaToken, setHcaptchaToken] = useState("");
+	const [domain, setDomain] = useState(props.mainDomain);
+	const [isLoading, setIsLoading] = useState(false);
+	const [shortUrl, setShortUrl] = useState("");
+	const [editPassword, setEditPassword] = useState("");
+
+	const captchaRef: Ref<HCaptcha> = useRef(null);
 
 	return (
 		<Layout cardTitle="Create short link" error={error}>
 			<form
-				onSubmit={(event) => {
+				onSubmit={async (event) => {
 					event.preventDefault();
+					setIsLoading(true);
+					if (props.enableCaptcha) {
+						setHcaptchaToken("");
+						captchaRef.current.resetCaptcha();
+					}
+					if (domain.length >= 1 && destination.length >= 1) {
+						const response = await fetch("/api/create", {
+							method: "POST",
+							body: JSON.stringify({
+								destination: destination,
+								domain: domain,
+								hcaptchaToken: hcaptchaToken,
+							}),
+						});
+						if (response.status === 200) {
+							const json = await response.json();
+							if (json.success) {
+								setShortUrl(json.shortUrl);
+								setEditPassword(json.editPassword);
+								setSuccess(true);
+							} else {
+								if (json.error) {
+									setIsLoading(false), setError(json.error);
+								} else {
+									setIsLoading(false);
+									setError("An unknown error has occurred.");
+								}
+							}
+						} else {
+							let json;
+							try {
+								json = await response.json();
+							} catch (e) {
+								setIsLoading(false);
+								setError("An unknown error has occurred.");
+							}
+							if (json.error) {
+								setIsLoading(false), setError(json.error);
+							} else {
+								setIsLoading(false);
+								setError("An unknown error has occurred.");
+							}
+						}
+					} else {
+						setIsLoading(false);
+						setError(
+							"Please enter a long URL and select a short domain."
+						);
+					}
 				}}
 			>
 				<Row>
@@ -58,6 +115,7 @@ const Index: NextPage<Props> = (props: Props) => {
 									setDestination(event.target.value);
 								}}
 								required
+								disabled={isLoading}
 							/>
 						</label>
 					</Col>
@@ -65,7 +123,14 @@ const Index: NextPage<Props> = (props: Props) => {
 						<label className="nq-label">
 							Domain:
 							<br />
-							<select className="nq-input" required>
+							<select
+								className="nq-input"
+								onChange={(event) => {
+									setDomain(event.target.value);
+								}}
+								required
+								disabled={isLoading}
+							>
 								{props.domains.map((domain: string) => {
 									return (
 										<option
@@ -75,6 +140,9 @@ const Index: NextPage<Props> = (props: Props) => {
 													? true
 													: false
 											}
+											onSelect={() => {
+												setDomain(domain);
+											}}
 										>
 											{domain}
 										</option>
@@ -111,6 +179,7 @@ const Index: NextPage<Props> = (props: Props) => {
 											onError={() => {
 												setHcaptchaToken("");
 											}}
+											ref={captchaRef}
 										/>
 										<br />
 									</div>
@@ -119,6 +188,7 @@ const Index: NextPage<Props> = (props: Props) => {
 									type="submit"
 									className="nq-button gold"
 									style={{ width: "100%" }}
+									disabled={isLoading}
 								>
 									<svg className="nq-icon">
 										<use xlinkHref="/nimiq-style.icons.svg#nq-checkmark-small" />
@@ -128,6 +198,95 @@ const Index: NextPage<Props> = (props: Props) => {
 							</Card.Body>
 						</Card.Card>
 					</Col>
+					{success && (
+						<Col lg={6} md={12} sm={12}>
+							<Card.Card
+								className="card-underform"
+								isUnderform={true}
+							>
+								<Card.Header>
+									<H1>
+										<svg className="nq-icon">
+											<use xlinkHref="/nimiq-style.icons.svg#nq-checkmark" />
+										</svg>
+									</H1>
+									<p className="nq-notice success">
+										Your short link was successfully
+										created.
+									</p>
+								</Card.Header>
+								<Card.Body>
+									<p>
+										<b>Your short link:</b>
+										<br />
+										<Row>
+											<Col lg={12} md={12} sm={12}>
+												<input
+													className="nq-input"
+													disabled
+													type="url"
+													value={shortUrl}
+												/>
+											</Col>
+											<Col lg={12} md={12} sm={12}>
+												<CopyToClipboard
+													text={shortUrl}
+												>
+													<button
+														className="nq-button green"
+														aria-label="Copy to clipboard"
+														style={{
+															width: "100%",
+														}}
+														type="button"
+													>
+														<svg className="nq-icon">
+															<use xlinkHref="/nimiq-style.icons.svg#nq-copy" />
+														</svg>
+													</button>
+												</CopyToClipboard>
+											</Col>
+										</Row>
+									</p>
+									<p>
+										<b>
+											Password required to edit the short
+											link:
+										</b>
+										<br />
+										<Row>
+											<Col lg={12} md={12} sm={12}>
+												<input
+													className="nq-input"
+													disabled
+													type="text"
+													value={editPassword}
+												/>
+											</Col>
+											<Col lg={12} md={12} sm={12}>
+												<CopyToClipboard
+													text={editPassword}
+												>
+													<button
+														className="nq-button green"
+														aria-label="Copy to clipboard"
+														style={{
+															width: "100%",
+														}}
+														type="button"
+													>
+														<svg className="nq-icon">
+															<use xlinkHref="/nimiq-style.icons.svg#nq-copy" />
+														</svg>
+													</button>
+												</CopyToClipboard>
+											</Col>
+										</Row>
+									</p>
+								</Card.Body>
+							</Card.Card>
+						</Col>
+					)}
 				</Row>
 			</form>
 		</Layout>

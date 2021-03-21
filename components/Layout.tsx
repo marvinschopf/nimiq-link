@@ -54,6 +54,14 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 								? props.title
 								: process.env.APP_TITLE}
 						</H1>
+						{props.error && (
+							<p className="nq-notice error">
+								<svg className="nq-icon">
+									<use xlinkHref="/nimiq-style.icons.svg#nq-face-sad" />
+								</svg>{" "}
+								{props.error}
+							</p>
+						)}
 					</Card.Header>
 					<Card.Body>{props.children}</Card.Body>
 				</Card.Card>
