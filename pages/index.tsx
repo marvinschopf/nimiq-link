@@ -91,7 +91,13 @@ const Index: NextPage<Props> = (props: Props) => {
 							isUnderform={true}
 						>
 							<Card.Body>
-								<div style={{ margin: "auto" }}>
+								<div
+									style={{
+										margin: "auto",
+										textAlign: "center",
+										display: "table",
+									}}
+								>
 									<HCaptcha
 										sitekey={props.hcaptchaSiteKey}
 										onVerify={(token: string) => {
