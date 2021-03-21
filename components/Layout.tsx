@@ -69,6 +69,25 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 					<Card.Body>{props.children}</Card.Body>
 				</Card.Card>
 			</main>
+			<footer>
+				<a
+					className="nq-button-pill green"
+					target="_blank"
+					rel="noopener"
+					href="https://github.com/marvinschopf/nimiq-link"
+				>
+					GitHub
+				</a>
+				<div style={{ float: "right" }}>
+					<a
+						href="https://wallet.nimiq.com/nimiq:NQ848KE9H2L9QSNRYMSTGQML7V5R92FMJC9N"
+						target="_blank"
+						rel="noopener"
+					>
+						<img src="https://www.nimiq.com/accept-donations/img/donationBtnImg/orange-small.svg" />
+					</a>
+				</div>
+			</footer>
 		</div>
 	);
 };

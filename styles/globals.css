@@ -39,3 +39,11 @@ select {
 .card-full * {
 	max-width: 100%;
 }
+
+.center-children {
+	text-align: center;
+}
+
+.center-children * {
+	margin: auto;
+}
