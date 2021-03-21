@@ -16,13 +16,74 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { FunctionComponent, useState } from "react";
+import { NextPage } from "next";
+import { useState } from "react";
 import Layout from "../components/Layout";
 
-const Index: FunctionComponent = () => {
-	const [error, setError] = useState("");
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
-	return <Layout cardTitle="Create short link" error={error}></Layout>;
+const Index: NextPage = () => {
+	const [error, setError] = useState("");
+	const [destination, setDestination] = useState("");
+
+	return (
+		<Layout cardTitle="Create short link" error={error}>
+			<form
+				onSubmit={(event) => {
+					event.preventDefault();
+				}}
+			>
+				<Row>
+					<Col lg={6} md={6} sm={12}>
+						<label className="nq-label">
+							Long URL:
+							<br />
+							<input
+								type="url"
+								className="nq-input"
+								onChange={(event) => {
+									setDestination(event.target.value);
+								}}
+								required
+							/>
+						</label>
+					</Col>
+					<Col lg={6} md={6} sm={12}>
+						<label className="nq-label">
+							Domain:
+							<br />
+							<select className="nq-input" required>
+								{process.env.DOMAINS.split(",").map(
+									(domain: string) => {
+										return (
+											<option
+												value={domain}
+												selected={
+													domain ===
+													process.env.MAIN_DOMAIN
+														? true
+														: false
+												}
+											>
+												{domain}
+											</option>
+										);
+									}
+								)}
+							</select>
+						</label>
+					</Col>
+				</Row>
+			</form>
+		</Layout>
+	);
 };
+
+export async function getStaticProps(context) {
+	return {
+		props: {},
+	};
+}
 
 export default Index;

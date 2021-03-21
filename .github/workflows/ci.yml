@@ -60,3 +60,5 @@ jobs:
               run: yarn build
               env:
                   APP_TITLE: "Nimiq.link"
+                  DOMAINS: "nmlnk.mrv.wtf"
+                  MAIN_DOMAIN: "nmlnk.mrv.wtf"
