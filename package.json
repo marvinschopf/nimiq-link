@@ -6,8 +6,8 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"style:fix": "prettier --write pages/ styles/ components/ *.js *.ts *.json .github/workflows",
-		"style:check": "prettier --check pages/ styles/ components/ *.js *.ts *.json .github/workflows"
+		"style:fix": "prettier --write pages/ styles/ components/ *.js *.ts *.json .github/workflows data/",
+		"style:check": "prettier --check pages/ styles/ components/ *.js *.ts *.json .github/workflows data/"
 	},
 	"dependencies": {
 		"@fontsource/muli": "4.1.0",
@@ -24,6 +24,7 @@
 		"react": "npm:@preact/compat@0.0.4",
 		"react-bootstrap": "1.5.2",
 		"react-copy-to-clipboard": "5.0.3",
+		"react-countdown-circle-timer": "2.5.0",
 		"react-dom": "npm:@preact/compat@0.0.4",
 		"react-ssr-prepass": "npm:preact-ssr-prepass@1.1.3",
 		"serverless-mysql": "1.5.4",
@@ -47,5 +48,8 @@
 		"tabWidth": 4,
 		"semi": true,
 		"singleQuote": false
+	},
+	"browser": {
+		"serverless-mysql": false
 	}
 }

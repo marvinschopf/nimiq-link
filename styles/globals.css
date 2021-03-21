@@ -31,11 +31,11 @@ select {
 	width: 100%;
 }
 
-.card-underform {
+.card-full {
 	margin: auto;
 	width: 100%;
 }
 
-.card-underform * {
+.card-full * {
 	max-width: 100%;
 }
