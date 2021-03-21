@@ -29,16 +29,6 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import Card from "../components/Card";
 import H1 from "../components/H1";
 
-import dynamic from "next/dynamic";
-
-let FriendlyCaptcha: any;
-
-if (process.env.ENABLE_FRIENDLYCAPTCHA) {
-	FriendlyCaptcha = dynamic(() => import("friendly-challenge"), {
-		ssr: false,
-	});
-}
-
 type Props = {
 	domains: string[];
 	mainDomain: string;
@@ -65,24 +55,27 @@ const Index: NextPage<Props> = (props: Props) => {
 	const friendlyCaptchaContainerRef: Ref<any> = useRef(null);
 
 	useEffect(() => {
+		async function createIt() {}
 		if (props.enableFrcCaptcha && !props.enableHcaptcha) {
 			if (
 				!friendlyCaptchaRef.current &&
 				friendlyCaptchaContainerRef.current
 			) {
-				friendlyCaptchaRef.current = new FriendlyCaptcha.WidgetInstance(
-					friendlyCaptchaContainerRef.current,
-					{
-						startMode: "auto",
-						doneCallback: (solution: string) => {
-							setFriendlyCaptchaToken(solution);
-						},
-						errorCallback: (error) => {
-							setFriendlyCaptchaToken("");
-							setError(error);
-						},
-					}
-				);
+				import("friendly-challenge").then((fcMod) => {
+					friendlyCaptchaRef.current = new fcMod.WidgetInstance(
+						friendlyCaptchaContainerRef.current,
+						{
+							startMode: "auto",
+							doneCallback: (solution: string) => {
+								setFriendlyCaptchaToken(solution);
+							},
+							errorCallback: (error) => {
+								setFriendlyCaptchaToken("");
+								setError(error);
+							},
+						}
+					);
+				});
 			}
 
 			return () => {
