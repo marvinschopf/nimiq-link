@@ -76,10 +76,16 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 		<Layout appTitle={props.appTitle}>
 			<Row>
 				<Col lg={6} md={12} sm={12}>
+					<Card.Card className="card-full">
+						<Card.Body>
+							<div className="center-children">
+								<Fact />
+							</div>
+						</Card.Body>
+					</Card.Card>
+				</Col>
+				<Col lg={6} md={12} sm={12}>
 					<Card.Card>
-						<Card.Header>
-							<H1>Short link</H1>
-						</Card.Header>
 						<Card.Body>
 							<div className="center-children">
 								<CountdownCircleTimer
@@ -114,15 +120,6 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 										);
 									}}
 								</CountdownCircleTimer>
-							</div>
-						</Card.Body>
-					</Card.Card>
-				</Col>
-				<Col lg={6} md={12} sm={12}>
-					<Card.Card className="card-full">
-						<Card.Body>
-							<div className="center-children">
-								<Fact />
 							</div>
 						</Card.Body>
 					</Card.Card>
