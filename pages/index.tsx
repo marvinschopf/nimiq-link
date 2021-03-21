@@ -34,6 +34,7 @@ type Props = {
 	mainDomain: string;
 	hcaptchaSiteKey: string;
 	enableCaptcha: boolean;
+	appTitle: string;
 };
 
 const Index: NextPage<Props> = (props: Props) => {
@@ -49,7 +50,11 @@ const Index: NextPage<Props> = (props: Props) => {
 	const captchaRef: Ref<HCaptcha> = useRef(null);
 
 	return (
-		<Layout cardTitle="Create short link" error={error}>
+		<Layout
+			appTitle={props.appTitle}
+			cardTitle="Create short link"
+			error={error}
+		>
 			<form
 				onSubmit={async (event) => {
 					event.preventDefault();
@@ -320,6 +325,7 @@ export async function getStaticProps(context) {
 			mainDomain: process.env.MAIN_DOMAIN,
 			hcaptchaSiteKey: process.env.HCAPTCHA_SITE_KEY,
 			enableCaptcha: process.env.ENABLE_CAPTCHA == "true" ? true : false,
+			appTitle: process.env.APP_TITLE,
 		},
 	};
 }

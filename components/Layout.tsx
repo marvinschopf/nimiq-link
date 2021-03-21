@@ -26,6 +26,7 @@ type Props = {
 	title?: string;
 	error?: string;
 	cardTitle?: string;
+	appTitle: string;
 	children: ReactNode;
 };
 
@@ -35,14 +36,14 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 			<Head>
 				{props.title && (
 					<title>
-						{props.title} &middot; {process.env.APP_TITLE}
+						{props.title} &middot; {props.appTitle}
 					</title>
 				)}
-				{!props.title && <title>{process.env.APP_TITLE}</title>}
+				{!props.title && <title>{props.appTitle}</title>}
 			</Head>
 			<header>
 				{props.title && <H1>{props.title}</H1>}
-				{!props.title && <H1>{process.env.APP_TITLE}</H1>}
+				{!props.title && <H1>{props.appTitle}</H1>}
 			</header>
 			<main>
 				<Card.Card>
@@ -52,7 +53,7 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 								? props.cardTitle
 								: props.title
 								? props.title
-								: process.env.APP_TITLE}
+								: props.appTitle}
 						</H1>
 						{props.error && (
 							<p className="nq-notice error">
