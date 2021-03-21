@@ -51,7 +51,7 @@ export const Fact: FunctionComponent<Props> = ({
 				target="_blank"
 				rel="noopener"
 				className="nq-button-pill light-blue"
-				style={{ paddingTop: "4px" }}
+				style={{ marginTop: "4px" }}
 			>
 				{fact.urlText ? fact.urlText : "Learn more"}{" "}
 				<svg className="nq-icon">
