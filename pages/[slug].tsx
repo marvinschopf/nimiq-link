@@ -35,6 +35,7 @@ type Props = {
 	is404: boolean;
 	redirectDelay: number;
 	destination: string;
+	appVersion: string;
 };
 
 const Redirect: FunctionComponent<Props> = (props: Props) => {
@@ -44,6 +45,7 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 				appTitle={props.appTitle}
 				title="Error 404"
 				error="Unfortunately, the requested short link could not be found."
+				version={props.appVersion}
 			>
 				<p className="nq-notice error">
 					<b>
@@ -154,6 +156,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 					? parseInt(process.env.REDIRECT_DELAY)
 					: 3,
 				is404: true,
+				appVersion: process.env.GIT_SHA,
 			},
 		};
 	}
@@ -167,6 +170,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 					: 3,
 				isLocked: true,
 				lockReason: result.lockReason ? result.lockReason : "Unknown",
+				appVersion: process.env.GIT_SHA,
 			},
 		};
 	}
@@ -178,6 +182,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 					? parseInt(process.env.REDIRECT_DELAY)
 					: 3,
 				destination: result.destination,
+				appVersion: process.env.GIT_SHA,
 			},
 		};
 	} else {

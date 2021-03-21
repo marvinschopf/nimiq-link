@@ -29,6 +29,7 @@ type Props = {
 	cardTitle?: string;
 	appTitle: string;
 	children: ReactNode;
+	version?: string;
 };
 
 const Layout: FunctionComponent<Props> = (props: Props) => {
@@ -71,14 +72,27 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 			</main>
 			<br />
 			<footer>
-				<a
-					className="float-lg-left float-md-left nq-button-pill green"
-					target="_blank"
-					rel="noopener"
-					href="https://github.com/marvinschopf/nimiq-link"
-				>
-					GitHub
-				</a>
+				<div className="float-lg-left float-md-left">
+					Version:{" "}
+					<a
+						href={
+							props.version
+								? `https://github.com/marvinschopf/nimiq-link/commit/${props.version}`
+								: "https://github.com/marvinschopf/nimiq-link"
+						}
+						target="_blank"
+						rel="noopener"
+					></a>
+					<pre>{props.version ? props.version : "unknown"}</pre>{" "}
+					<a
+						className="nq-button-pill green"
+						target="_blank"
+						rel="noopener"
+						href="https://github.com/marvinschopf/nimiq-link"
+					>
+						GitHub
+					</a>
+				</div>
 				<a
 					href="https://wallet.nimiq.com/nimiq:NQ848KE9H2L9QSNRYMSTGQML7V5R92FMJC9N"
 					target="_blank"

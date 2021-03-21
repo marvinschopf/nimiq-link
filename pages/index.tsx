@@ -37,6 +37,7 @@ type Props = {
 	appTitle: string;
 	enableFrcCaptcha: boolean;
 	friendlyCaptchaKey: string;
+	appVersion: string;
 };
 
 const Index: NextPage<Props> = (props: Props) => {
@@ -90,6 +91,7 @@ const Index: NextPage<Props> = (props: Props) => {
 			appTitle={props.appTitle}
 			cardTitle="Create short link"
 			error={error}
+			version={props.appVersion}
 		>
 			<form
 				onSubmit={async (event) => {
@@ -403,6 +405,7 @@ export async function getStaticProps(context) {
 				? process.env.FRIENDLYCAPTCHA_SITE_KEY
 				: "",
 			appTitle: process.env.APP_TITLE ? process.env.APP_TITLE : "",
+			appVersion: process.env.GIT_SHA,
 		},
 	};
 }

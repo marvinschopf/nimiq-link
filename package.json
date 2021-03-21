@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"build": "next build",
+		"build": "GIT_SHA=$(git rev-parse --short HEAD) next build",
 		"start": "next start",
 		"style:fix": "prettier --write pages/ styles/ components/ *.js *.ts *.json .github/workflows data/",
 		"style:check": "prettier --check pages/ styles/ components/ *.js *.ts *.json .github/workflows data/"
