@@ -23,6 +23,7 @@ import Layout from "../components/Layout";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+import isURL from "validator/lib/isURL";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Card from "../components/Card";
@@ -63,37 +64,38 @@ const Index: NextPage<Props> = (props: Props) => {
 						setHcaptchaToken("");
 						captchaRef.current.resetCaptcha();
 					}
-					if (domain.length >= 1 && destination.length >= 1) {
-						const response = await fetch("/api/create", {
-							method: "POST",
-							body: JSON.stringify({
-								destination: destination,
-								domain: domain,
-								hcaptchaToken: hcaptchaToken,
-							}),
-						});
-						if (response.status === 200) {
-							const json = await response.json();
-							if (json.success) {
-								setShortUrl(json.shortUrl);
-								setEditPassword(json.editPassword);
-								setSuccess(true);
-							} else {
-								if (json.error) {
-									setIsLoading(false), setError(json.error);
-								} else {
-									setIsLoading(false);
-									setError("An unknown error has occurred.");
-								}
-							}
+					if (domain.length === 0 || destination.length === 0) {
+						setIsLoading(false);
+						setError(
+							"Please enter a long URL and select a short domain."
+						);
+						return;
+					}
+					if (!isURL(destination)) {
+						setIsLoading(false);
+						setError("Please enter a valid destination URL.");
+						return;
+					}
+					if (!props.domains.includes(domain)) {
+						setIsLoading(false);
+						setError("Please select a valid short domain.");
+						return;
+					}
+					const response = await fetch("/api/create", {
+						method: "POST",
+						body: JSON.stringify({
+							destination: destination,
+							domain: domain,
+							hcaptchaToken: hcaptchaToken,
+						}),
+					});
+					if (response.status === 200) {
+						const json = await response.json();
+						if (json.success) {
+							setShortUrl(json.shortUrl);
+							setEditPassword(json.editPassword);
+							setSuccess(true);
 						} else {
-							let json;
-							try {
-								json = await response.json();
-							} catch (e) {
-								setIsLoading(false);
-								setError("An unknown error has occurred.");
-							}
 							if (json.error) {
 								setIsLoading(false), setError(json.error);
 							} else {
@@ -102,10 +104,19 @@ const Index: NextPage<Props> = (props: Props) => {
 							}
 						}
 					} else {
-						setIsLoading(false);
-						setError(
-							"Please enter a long URL and select a short domain."
-						);
+						let json;
+						try {
+							json = await response.json();
+						} catch (e) {
+							setIsLoading(false);
+							setError("An unknown error has occurred.");
+						}
+						if (json.error) {
+							setIsLoading(false), setError(json.error);
+						} else {
+							setIsLoading(false);
+							setError("An unknown error has occurred.");
+						}
 					}
 				}}
 			>
