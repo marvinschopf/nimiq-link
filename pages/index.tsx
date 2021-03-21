@@ -86,7 +86,10 @@ const Index: NextPage<Props> = (props: Props) => {
 				<br />
 				<Row>
 					<Col lg={success ? 6 : 12} md={12} sm={12}>
-						<Card.Card className="card-underform">
+						<Card.Card
+							className="card-underform"
+							isUnderform={true}
+						>
 							<Card.Body>
 								<div style={{ margin: "auto" }}>
 									<HCaptcha

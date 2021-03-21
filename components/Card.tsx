@@ -21,6 +21,7 @@ import { FunctionComponent, ReactNode } from "react";
 type CardProps = {
 	children: ReactNode;
 	className?: string;
+	isUnderform?: boolean;
 };
 
 type CardHeaderProps = {
@@ -37,6 +38,7 @@ export const Card: FunctionComponent<CardProps> = (props: CardProps) => {
 			className={
 				!props.className ? "nq-card" : `nq-card ${props.className}`
 			}
+			style={props.isUnderform ? { margin: "auto", width: "100%" } : {}}
 		>
 			{props.children}
 		</div>
