@@ -49,8 +49,11 @@ function generatePassword(): string {
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-	const hcaptchaEnabled: boolean = process.env.ENABLE_HCAPTCHA == "true" ? true : false;
-    const friendlyCaptchaEnabled: boolean =  (process.env.ENABLE_FRIENDLYCAPTCHA == "true" ? true : false) && !hcaptchaEnabled;
+	const hcaptchaEnabled: boolean =
+		process.env.ENABLE_HCAPTCHA == "true" ? true : false;
+	const friendlyCaptchaEnabled: boolean =
+		(process.env.ENABLE_FRIENDLYCAPTCHA == "true" ? true : false) &&
+		!hcaptchaEnabled;
 	const domains: string[] = process.env.DOMAINS.split(",");
 	if (req.method === "POST") {
 		if (req.body) {
@@ -67,14 +70,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			if (
 				body.destination &&
 				body.domain &&
-				(body.hcaptchaToken || !hcaptchaEnabled) && (body.friendlyCaptchaToken || !friendlyCaptchaEnabled)
+				(body.hcaptchaToken || !hcaptchaEnabled) &&
+				(body.friendlyCaptchaToken || !friendlyCaptchaEnabled)
 			) {
 				const destination: string = body.destination;
 				const domain: string = body.domain;
 				const hcaptchaToken: string = hcaptchaEnabled
 					? body.hcaptchaToken
 					: "";
-                const friendlyCaptchaToken: string = friendlyCaptchaEnabled ? body.friendlyCaptchaToken : "";
+				const friendlyCaptchaToken: string = friendlyCaptchaEnabled
+					? body.friendlyCaptchaToken
+					: "";
 				if (domains.includes(domain)) {
 					if (hcaptchaEnabled) {
 						const responseCaptcha = await fetch(
@@ -105,20 +111,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 							return;
 						}
 					}
-                    if(friendlyCaptchaEnabled && !hcaptchaEnabled) {
-                        const responseCaptcha = await fetch("https://friendlycaptcha.com/api/v1/siteverify", {
-                            method: "POST",
-                            headers: {
-                                "Content-type":
-                                    "application/json",
-                            },
-                            body: JSON.stringify({
-                                solution: friendlyCaptchaToken,
-                                secret: process.env.FRIENDLY_CAPTCHA_SECRET,
-                                sitekey: process.env.FRIENDLY_CAPTCHA_SITE_KEY
-                            })
-                        });
-                        if (responseCaptcha.status === 200) {
+					if (friendlyCaptchaEnabled && !hcaptchaEnabled) {
+						const responseCaptcha = await fetch(
+							"https://friendlycaptcha.com/api/v1/siteverify",
+							{
+								method: "POST",
+								headers: {
+									"Content-type": "application/json",
+								},
+								body: JSON.stringify({
+									solution: friendlyCaptchaToken,
+									secret: process.env.FRIENDLY_CAPTCHA_SECRET,
+									sitekey:
+										process.env.FRIENDLY_CAPTCHA_SITE_KEY,
+								}),
+							}
+						);
+						if (responseCaptcha.status === 200) {
 							const jsonCaptcha = await responseCaptcha.json();
 							if (!jsonCaptcha.success) {
 								res.status(400).json({
@@ -134,7 +143,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 							});
 							return;
 						}
-                    }
+					}
 					if (!isURL(destination)) {
 						res.status(400).json({
 							success: false,
