@@ -95,6 +95,7 @@ const Index: NextPage<Props> = (props: Props) => {
 							setShortUrl(json.shortUrl);
 							setEditPassword(json.editPassword);
 							setSuccess(true);
+							setIsLoading(false);
 						} else {
 							if (json.error) {
 								setIsLoading(false), setError(json.error);
