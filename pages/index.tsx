@@ -23,7 +23,12 @@ import Layout from "../components/Layout";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-const Index: NextPage = () => {
+type Props = {
+	domains: string[];
+	mainDomain: string;
+};
+
+const Index: NextPage<Props> = (props: Props) => {
 	const [error, setError] = useState("");
 	const [destination, setDestination] = useState("");
 
@@ -54,23 +59,20 @@ const Index: NextPage = () => {
 							Domain:
 							<br />
 							<select className="nq-input" required>
-								{process.env.DOMAINS.split(",").map(
-									(domain: string) => {
-										return (
-											<option
-												value={domain}
-												selected={
-													domain ===
-													process.env.MAIN_DOMAIN
-														? true
-														: false
-												}
-											>
-												{domain}
-											</option>
-										);
-									}
-								)}
+								{props.domains.map((domain: string) => {
+									return (
+										<option
+											value={domain}
+											selected={
+												domain === props.mainDomain
+													? true
+													: false
+											}
+										>
+											{domain}
+										</option>
+									);
+								})}
 							</select>
 						</label>
 					</Col>
@@ -81,8 +83,15 @@ const Index: NextPage = () => {
 };
 
 export async function getStaticProps(context) {
+	let domains: string[] = [];
+	let mainDomain: string = "";
+	domains = process.env.DOMAINS.split(",");
+	mainDomain = process.env.MAIN_DOMAIN;
 	return {
-		props: {},
+		props: {
+			domains,
+			mainDomain,
+		},
 	};
 }
 
