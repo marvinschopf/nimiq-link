@@ -65,7 +65,7 @@ const Index: NextPage<Props> = (props: Props) => {
 					friendlyCaptchaRef.current = new fcMod.WidgetInstance(
 						friendlyCaptchaContainerRef.current,
 						{
-							startMode: "auto",
+							startMode: "none",
 							doneCallback: (solution: string) => {
 								setFriendlyCaptchaToken(solution);
 							},
