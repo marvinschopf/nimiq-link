@@ -19,6 +19,7 @@
 import { GetServerSideProps } from "next";
 import { FunctionComponent } from "react";
 import serverlessMysql from "serverless-mysql";
+import Head from "next/head";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -73,6 +74,14 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 
 	return (
 		<Layout appTitle={props.appTitle}>
+			<Head>
+				<meta
+					http-equiv="refresh"
+					content={`${props.redirectDelay + 2}; URL=${
+						props.destination
+					}`}
+				/>
+			</Head>
 			<Row>
 				<Col lg={6} md={12} sm={12}>
 					<Card.Card className="card-full">
