@@ -40,7 +40,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 					error: "Missing parameters.",
 				});
 			}
-			if (body.slug) {
+			if (body && body.slug) {
 				const slug: string = body.slug.toString();
 				const results: any = await mysql.query(
 					"SELECT clicks.date, clicks.clicks FROM links INNER JOIN clicks ON clicks.link = links.id WHERE links.slug = ? AND links.active = 1 AND clicks.date >= DATE_ADD(CURDATE(),INTERVAL -7 DAY);",
