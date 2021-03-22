@@ -43,13 +43,16 @@ type Stats = {
 	clicks: number;
 };
 
+type ChartData = {
+	labels: string[];
+	datasets: { data: number[]; label: "Clicks" }[];
+};
+
 type State = {
 	stats: Stats[] | false;
 	clicks: number[] | false;
 	error: string;
-	chartData:
-		| { labels: string[]; datasets: { data: number[]; label: "Clicks" }[] }
-		| false;
+	chartData: ChartData | false;
 };
 
 class EditLink extends Component<Props, State> {
@@ -77,10 +80,7 @@ class EditLink extends Component<Props, State> {
 		if (responseStats.status === 200) {
 			const json = await responseStats.json();
 			if (json.success) {
-				let chartData: {
-					labels: string[];
-					datasets: { data: number[]; label: "Clicks" }[];
-				} = {
+				let chartData: ChartData = {
 					labels: [],
 					datasets: [
 						{
