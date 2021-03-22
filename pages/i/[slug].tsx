@@ -217,6 +217,22 @@ class EditLink extends Component<Props, State> {
 				<Head>
 					<meta name="robots" content="noindex" />
 				</Head>
+				{this.state.info === false && this.state.stats === false && (
+					<p className="nq-notice info">
+						<svg className="nq-icon">
+							<use xlinkHref="/nimiq-style.icons.svg#nq-arrow-right-small" />
+						</svg>{" "}
+						<b>Loading link data...</b>
+					</p>
+				)}
+				{this.state.info !== false && this.state.stats === false && (
+					<p className="nq-notice info">
+						<svg className="nq-icon">
+							<use xlinkHref="/nimiq-style.icons.svg#nq-arrow-right-small" />
+						</svg>{" "}
+						<b>Loading statistics...</b>
+					</p>
+				)}
 				{this.state.info && (
 					<Row>
 						<Col lg={6} md={6} sm={12}>
@@ -247,7 +263,7 @@ class EditLink extends Component<Props, State> {
 								<Card.Header>
 									<h1 className="nq-h1">
 										<svg className="nq-icon">
-											<use xlinkHref="/nimiq-style.icons.svg#nq-paper-edit" />
+											<use xlinkHref="/nimiq-style.icons.svg#nq-lock-locked" />
 										</svg>
 									</h1>
 									{this.state.deleteError.length >= 1 && (
