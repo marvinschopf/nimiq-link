@@ -91,7 +91,11 @@ class EditLink extends Component<Props, State> {
 				};
 				const stats: Stats[] = json.response;
 				await asyncForEach(stats, (stat: Stats) => {
-					chartData.labels.push(stat.date);
+					chartData.labels.push(
+						new Intl.DateTimeFormat(
+							navigator.language || undefined
+						).format(new Date(stat.date))
+					);
 					chartData.datasets[0].data.push(stat.clicks);
 				});
 				console.log(stats);
