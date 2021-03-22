@@ -218,7 +218,10 @@ class EditLink extends Component<Props, State> {
 					<meta name="robots" content="noindex" />
 				</Head>
 				{this.state.info === false && this.state.stats === false && (
-					<p className="nq-notice info">
+					<p
+						className="nq-notice info"
+						style={{ textAlign: "center" }}
+					>
 						<svg className="nq-icon">
 							<use xlinkHref="/nimiq-style.icons.svg#nq-arrow-right-small" />
 						</svg>{" "}
@@ -226,7 +229,10 @@ class EditLink extends Component<Props, State> {
 					</p>
 				)}
 				{this.state.info !== false && this.state.stats === false && (
-					<p className="nq-notice info">
+					<p
+						className="nq-notice info"
+						style={{ textAlign: "center" }}
+					>
 						<svg className="nq-icon">
 							<use xlinkHref="/nimiq-style.icons.svg#nq-arrow-right-small" />
 						</svg>{" "}
@@ -408,11 +414,7 @@ class EditLink extends Component<Props, State> {
 				{this.state.stats !== false && this.state.stats.length >= 1 && (
 					<Row>
 						<Col lg={12} md={12} sm={12}>
-							<Card.Card isFull={true}>
-								<Card.Body>
-									<LineChart data={this.state.chartData} />
-								</Card.Body>
-							</Card.Card>
+							<LineChart data={this.state.chartData} />
 						</Col>
 					</Row>
 				)}
