@@ -19,7 +19,8 @@
 import { GetServerSideProps } from "next";
 import { FunctionComponent } from "react";
 import serverlessMysql from "serverless-mysql";
-import Layout from "../components/Layout";
+import Layout from "../../components/Layout";
+import Head from "next/head";
 
 type Props = {
 	appTitle: string;
@@ -30,6 +31,9 @@ type Props = {
 const EditLink: FunctionComponent<Props> = (props: Props) => {
 	return (
 		<Layout appTitle={props.appTitle} version={props.appVersion}>
+			<Head>
+				<meta name="robots" content="noindex" />
+			</Head>
 			<h1>{props.slug}</h1>
 		</Layout>
 	);

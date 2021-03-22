@@ -47,6 +47,9 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 				error="Unfortunately, the requested short link could not be found."
 				version={props.appVersion}
 			>
+				<Head>
+					<meta name="robots" content="noindex" />
+				</Head>
 				<p className="nq-notice error">
 					<b>
 						Unfortunately, the requested short link could not be
@@ -64,6 +67,9 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 				title="Short link disabled"
 				error={`This short link has been blocked. Reason: ${props.lockReason}`}
 			>
+				<Head>
+					<meta name="robots" content="noindex" />
+				</Head>
 				<p className="nq-notice error">
 					<b>This short link has been blocked.</b> Reason:{" "}
 					{props.lockReason}
@@ -81,6 +87,7 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 						props.destination
 					}`}
 				/>
+				<meta name="robots" content="noindex" />
 			</Head>
 			<Row>
 				<Col lg={6} md={12} sm={12}>
@@ -138,6 +145,14 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+	if (context.params.slug.toString().endsWith("+")) {
+		context.res.statusCode = 302;
+		context.res.setHeader(
+			"Location",
+			`/i/${context.params.slug.toString().slice(0, -1)}`
+		);
+		return { props: {} };
+	}
 	let nonimiq: boolean = false;
 	if (process.env.NONIMIQ && process.env.NONIMIQ == "true") nonimiq = true;
 	const mysql: serverlessMysql.ServerlessMysql = serverlessMysql({
