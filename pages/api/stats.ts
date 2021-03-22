@@ -31,21 +31,14 @@ const mysql: serverlessMysql.ServerlessMysql = serverlessMysql({
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === "POST") {
 		if (req.body) {
-			let body;
-			try {
-				body = JSON.parse(req.body);
-			} catch (e) {
-				res.status(400).json({
-					success: false,
-					error: "Missing parameters.",
-				});
-			}
+			const body = JSON.parse(req.body);
 			if (body && body.slug) {
 				const slug: string = body.slug.toString();
 				const results: any = await mysql.query(
 					"SELECT clicks.date, clicks.clicks FROM links INNER JOIN clicks ON clicks.link = links.id WHERE links.slug = ? AND links.active = 1 AND clicks.date >= DATE_ADD(CURDATE(),INTERVAL -7 DAY);",
 					[slug]
 				);
+				await mysql.end();
 				res.status(200).json({
 					success: true,
 					response: results,
