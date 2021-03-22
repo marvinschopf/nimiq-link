@@ -300,6 +300,7 @@ const Index: NextPage<Props> = (props: Props) => {
 							</Card.Body>
 						</Card.Card>
 					</Col>
+					<br />
 					{success && (
 						<Col lg={6} md={12} sm={12}>
 							<Card.Card className="card-full" isUnderform={true}>
@@ -381,6 +382,21 @@ const Index: NextPage<Props> = (props: Props) => {
 												</CopyToClipboard>
 											</Col>
 										</Row>
+									</p>
+									<p>
+										<label>
+											<b>
+												Append a <code>+</code> to see
+												statistics of this link:
+											</b>
+											<br />
+											<input
+												className="nq-input"
+												disabled
+												type="text"
+												value={`${shortUrl}+`}
+											/>
+										</label>
 									</p>
 								</Card.Body>
 							</Card.Card>
