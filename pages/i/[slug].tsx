@@ -363,6 +363,9 @@ class EditLink extends Component<Props, State> {
 															event.target.value,
 													});
 												}}
+												value={
+													this.state.deletePassword
+												}
 												disabled={this.state.isDeleting}
 											/>
 										</label>
