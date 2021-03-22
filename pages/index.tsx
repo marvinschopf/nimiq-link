@@ -23,6 +23,8 @@ import Layout from "../components/Layout";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+import { getVersion, getAppTitle } from "./../util/meta";
+
 import isURL from "validator/lib/isURL";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -407,8 +409,8 @@ export async function getStaticProps(context) {
 			friendlyCaptchaKey: process.env.FRIENDLYCAPTCHA_SITE_KEY
 				? process.env.FRIENDLYCAPTCHA_SITE_KEY
 				: "",
-			appTitle: process.env.APP_TITLE ? process.env.APP_TITLE : "",
-			appVersion: process.env.GIT_SHA,
+			appTitle: getAppTitle(),
+			appVersion: getVersion(),
 		},
 	};
 }

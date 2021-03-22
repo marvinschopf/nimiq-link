@@ -80,7 +80,11 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 						className="nq-button-s light-blue"
 					>
 						Version:{" "}
-						<code>{props.version ? props.version : "unknown"}</code>
+						<code>
+							{props.version
+								? props.version.substring(0, 6)
+								: "unknown"}
+						</code>
 					</a>{" "}
 					<a
 						className="nq-button-pill green"

@@ -16,10 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { NextPage } from "next";
+import { GetStaticPropsContext, GetStaticPropsResult } from "next";
 import serverlessMysql from "serverless-mysql";
 import Layout from "../../components/Layout";
 import Head from "next/head";
+import { Component } from "react";
+import { getVersion, getAppTitle } from "./../../util/meta";
 
 type Props = {
 	appTitle: string;
@@ -27,23 +29,34 @@ type Props = {
 	slug: string;
 };
 
-const EditLink: NextPage<Props> = (props) => {
-	return (
-		<Layout appTitle={props.appTitle} version={props.appVersion}>
-			<Head>
-				<meta name="robots" content="noindex" />
-			</Head>
-			<h1>{props.slug}</h1>
-		</Layout>
-	);
-};
+type State = {};
 
-EditLink.getInitialProps = async (ctx): Promise<Props> => {
+class EditLink extends Component<Props> {
+	render() {
+		return (
+			<Layout
+				appTitle={this.props.appTitle}
+				version={this.props.appVersion}
+				cardTitle={this.props.slug}
+			>
+				<Head>
+					<meta name="robots" content="noindex" />
+				</Head>
+			</Layout>
+		);
+	}
+}
+
+export async function getStaticProps(
+	context: GetStaticPropsContext
+): Promise<GetStaticPropsResult<Props>> {
 	return {
-		appTitle: process.env.APP_TITLE,
-		appVersion: process.env.GIT_SHA,
-		slug: ctx.query.slug.toString(),
+		props: {
+			slug: context.params.slug.toString(),
+			appVersion: getVersion(),
+			appTitle: getAppTitle(),
+		},
 	};
-};
+}
 
 export default EditLink;

@@ -22,6 +22,8 @@ import serverlessMysql from "serverless-mysql";
 import detectBot from "isbot";
 import Head from "next/head";
 
+import { getVersion, getAppTitle } from "./../util/meta";
+
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "../components/Card";
@@ -180,12 +182,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	if (results.length !== 1) {
 		return {
 			props: {
-				appTitle: process.env.APP_TITLE,
+				appTitle: getAppTitle(),
 				redirectDelay: process.env.REDIRECT_DELAY
 					? parseInt(process.env.REDIRECT_DELAY)
 					: 3,
 				is404: true,
-				appVersion: process.env.GIT_SHA,
+				appVersion: getVersion(),
 			},
 		};
 	}
@@ -199,13 +201,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	if (result.locked === 1) {
 		return {
 			props: {
-				appTitle: process.env.APP_TITLE,
+				appTitle: getAppTitle(),
 				redirectDelay: process.env.REDIRECT_DELAY
 					? parseInt(process.env.REDIRECT_DELAY)
 					: 3,
 				isLocked: true,
 				lockReason: result.lockReason ? result.lockReason : "Unknown",
-				appVersion: process.env.GIT_SHA,
+				appVersion: getVersion(),
 			},
 		};
 	}
@@ -217,12 +219,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	} else {
 		return {
 			props: {
-				appTitle: process.env.APP_TITLE,
+				appTitle: getAppTitle(),
 				redirectDelay: process.env.REDIRECT_DELAY
 					? parseInt(process.env.REDIRECT_DELAY)
 					: 3,
 				destination: result.destination,
-				appVersion: process.env.GIT_SHA,
+				appVersion: getVersion(),
 			},
 		};
 	}
