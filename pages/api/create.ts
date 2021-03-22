@@ -18,7 +18,7 @@
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { getDomains } from "./../../helpers/meta";
+import { isValidDomain } from "./../../helpers/meta";
 
 import { randomBytes } from "crypto";
 import argon2 from "argon2";
@@ -57,7 +57,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 	const friendlyCaptchaEnabled: boolean =
 		(process.env.ENABLE_FRIENDLYCAPTCHA == "true" ? true : false) &&
 		!hcaptchaEnabled;
-	const domains: string[] = getDomains();
 	if (req.method === "POST") {
 		if (req.body) {
 			if (
@@ -74,7 +73,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 				const friendlyCaptchaToken: string = friendlyCaptchaEnabled
 					? req.body.friendlyCaptchaToken
 					: "";
-				if (domains.includes(domain)) {
+				if (isValidDomain(domain)) {
 					if (hcaptchaEnabled) {
 						const responseCaptcha = await fetch(
 							"https://hcaptcha.com/siteverify",
