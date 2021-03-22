@@ -245,7 +245,20 @@ class EditLink extends Component<Props, State> {
 									</h1>
 								</Card.Header>
 								<Card.Body>
-									<form>
+									<form
+										onSubmit={(event) => {
+											event.preventDefault();
+											if (
+												confirm(
+													"Are you sure you want to delete this link permanently? This cannot be undone and is forever."
+												)
+											) {
+												console.log("Delete link");
+											} else {
+												console.log("Do not delete");
+											}
+										}}
+									>
 										<label>
 											<b>Password:</b>
 											<br />
@@ -253,6 +266,8 @@ class EditLink extends Component<Props, State> {
 												className="nq-input"
 												type="password"
 												style={{ width: "100%" }}
+												required
+												placeholder="Password"
 											/>
 										</label>
 										<br />
