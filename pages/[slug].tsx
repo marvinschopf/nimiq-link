@@ -19,7 +19,7 @@
 import { GetServerSideProps } from "next";
 import { FunctionComponent } from "react";
 import serverlessMysql from "serverless-mysql";
-import isBot from "isbot";
+import detectBot from "isbot";
 import Head from "next/head";
 
 import Row from "react-bootstrap/Row";
@@ -161,10 +161,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		return { props: {} };
 	}
 	let nonimiq: boolean = false;
-	let requestByBot: boolean = false;
-	if (typeof context.req.headers["user-agent"] !== "undefined") {
-		requestByBot = isBot(context.req.headers["user-agent"].toString());
-	}
+	const isBot: boolean = context.req.headers["user-agent"]
+		? isBot(context.req.headers["user-agent"].toString())
+		: false;
 	if (process.env.NONIMIQ && process.env.NONIMIQ == "true") nonimiq = true;
 	const mysql: serverlessMysql.ServerlessMysql = serverlessMysql({
 		config: {
@@ -191,7 +190,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		};
 	}
 	const result = results[0];
-	if (!requestByBot)
+	if (!isBot)
 		await mysql.query(
 			"INSERT INTO clicks (link, date, clicks) VALUES (?, CURRENT_DATE(), 1) ON DUPLICATE KEY UPDATE clicks = clicks + 1;",
 			[result.id]
