@@ -336,7 +336,7 @@ class EditLink extends Component<Props, State> {
 												) {
 													const jsonDelete = await responseDelete.json();
 													if (jsonDelete.success) {
-														location.reload();
+														window.location.reload();
 													} else {
 														this.setState({
 															isDeleting: false,
