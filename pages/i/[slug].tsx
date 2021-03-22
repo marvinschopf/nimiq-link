@@ -115,7 +115,7 @@ class EditLink extends Component<Props, State> {
 				appTitle={this.props.appTitle}
 				version={this.props.appVersion}
 				cardTitle={
-					this.props.is404
+					!this.props.is404
 						? `${this.props.domain}/${this.props.slug}`
 						: "Error 404"
 				}
