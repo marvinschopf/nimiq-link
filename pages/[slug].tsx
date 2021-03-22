@@ -141,16 +141,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		},
 	});
 	const results: any = await mysql.query(
-		"SELECT destination, locked, lockReason FROM links WHERE active = 1 AND domain = ? AND slug = ? LIMIT 1;",
+		"SELECT id, destination, locked, lockReason FROM links WHERE active = 1 AND domain = ? AND slug = ? LIMIT 1;",
 		[context.req.headers.host, context.params.slug]
 	);
-	if (results.length === 1) {
-		await mysql.query(
-			"INSERT INTO clicks (id, link, date, clicks) VALUES (?, ?, CURRENT_DATE(), 1) ON DUPLICATE KEY UPDATE clicks = clicks + 1;",
-			[uuidv4(), results[0].id]
-		);
-	}
-	await mysql.end();
 	if (results.length !== 1) {
 		return {
 			props: {
@@ -164,6 +157,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		};
 	}
 	const result = results[0];
+	await mysql.query(
+		"INSERT INTO clicks (id, link, date, clicks) VALUES (?, ?, CURRENT_DATE(), 1) ON DUPLICATE KEY UPDATE clicks = clicks + 1;",
+		[uuidv4(), result.id]
+	);
+	await mysql.end();
 	if (result.locked === 1) {
 		return {
 			props: {
