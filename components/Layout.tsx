@@ -21,7 +21,6 @@ import Head from "next/head";
 import Link from "next/link";
 
 import Card from "./Card";
-import H1 from "./H1";
 
 type Props = {
 	title?: string;
@@ -44,22 +43,20 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 				{!props.title && <title>{props.appTitle}</title>}
 			</Head>
 			<header>
-				<Link href="/">
-					<a href="/" className="nq-h1">
-						{props.appTitle}
-					</a>
-				</Link>
+				<h1 className="nq-h1">
+					<Link href="/">{props.appTitle}</Link>
+				</h1>
 			</header>
 			<main>
 				<Card.Card>
 					<Card.Header>
-						<H1>
+						<h1 className="nq-h1">
 							{props.cardTitle
 								? props.cardTitle
 								: props.title
 								? props.title
 								: props.appTitle}
-						</H1>
+						</h1>
 						{props.error && (
 							<p className="nq-notice error">
 								<svg className="nq-icon">
