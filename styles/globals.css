@@ -95,3 +95,10 @@ select {
 		float: none !important;
 	}
 }
+
+#chart-statistics > * {
+	padding-top: 2px;
+	padding-left: 3.5px;
+	padding-right: 3.5px;
+	padding-bottom: 2px;
+}

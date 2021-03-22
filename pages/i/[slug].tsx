@@ -419,7 +419,9 @@ class EditLink extends Component<Props, State> {
 				{this.state.stats !== false && this.state.stats.length >= 1 && (
 					<Row>
 						<Col lg={12} md={12} sm={12}>
-							<LineChart data={this.state.chartData} />
+							<div id="chart-statistics">
+								<LineChart data={this.state.chartData} />
+							</div>
 						</Col>
 					</Row>
 				)}
