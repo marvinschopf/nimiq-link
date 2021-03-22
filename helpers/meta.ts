@@ -33,3 +33,15 @@ export const getAppTitle = (): string => {
 export const getNoNimiq = (): boolean => {
 	return process.env.NONIMIQ ? process.env.NONIMIQ == "true" : false;
 };
+
+export const getDomains = (): string[] => {
+	return process.env.DOMAINS
+		? process.env.DOMAINS.split(",")
+		: process.env.MAIN_DOMAIN
+		? [process.env.MAIN_DOMAIN]
+		: ["nimiq.link"];
+};
+
+export const isValidDomain = (domain: string): boolean => {
+	return getDomains().includes(domain);
+};
