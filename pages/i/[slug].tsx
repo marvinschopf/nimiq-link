@@ -47,6 +47,9 @@ type State = {
 	stats: Stats[] | false;
 	clicks: number[] | false;
 	error: string;
+	chartData:
+		| { labels: string[]; datasets: { data: number[]; label: "Clicks" }[] }
+		| false;
 };
 
 class EditLink extends Component<Props, State> {
@@ -56,6 +59,7 @@ class EditLink extends Component<Props, State> {
 			error: "",
 			stats: false,
 			clicks: false,
+			chartData: false,
 		};
 	}
 
@@ -73,16 +77,27 @@ class EditLink extends Component<Props, State> {
 		if (responseStats.status === 200) {
 			const json = await responseStats.json();
 			if (json.success) {
-				let clicks: number[] = [];
+				let chartData: {
+					labels: string[];
+					datasets: { data: number[]; label: "Clicks" }[];
+				} = {
+					labels: [],
+					datasets: [
+						{
+							data: [],
+							label: "Clicks",
+						},
+					],
+				};
 				const stats: Stats[] = json.response;
 				await asyncForEach(stats, (stat: Stats) => {
-					clicks.push(stat.clicks);
+					chartData.labels.push(stat.date);
+					chartData.datasets[0].data.push(stat.clicks);
 				});
 				console.log(stats);
-				console.log(clicks);
 				this.setState({
 					stats,
-					clicks,
+					chartData,
 				});
 			} else {
 				this.setState({
@@ -131,7 +146,7 @@ class EditLink extends Component<Props, State> {
 						<h2 style={{ textAlign: "center" }}></h2>
 					)}
 				{this.state.stats !== false && this.state.stats.length >= 1 && (
-					<LineChart data={this.state.clicks} />
+					<LineChart data={this.state.chartData} />
 				)}
 			</Layout>
 		);
