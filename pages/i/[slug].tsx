@@ -78,6 +78,8 @@ class EditLink extends Component<Props, State> {
 				await asyncForEach(stats, (stat: Stats) => {
 					clicks.push(stat.clicks);
 				});
+				console.log(stats);
+				console.log(clicks);
 				this.setState({
 					stats,
 					clicks,
