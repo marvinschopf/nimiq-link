@@ -18,6 +18,8 @@
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import { getDomains } from "./../../helpers/meta";
+
 import { randomBytes } from "crypto";
 import argon2 from "argon2";
 import { v4 as uuidv4 } from "uuid";
@@ -55,7 +57,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 	const friendlyCaptchaEnabled: boolean =
 		(process.env.ENABLE_FRIENDLYCAPTCHA == "true" ? true : false) &&
 		!hcaptchaEnabled;
-	const domains: string[] = process.env.DOMAINS.split(",");
+	const domains: string[] = getDomains();
 	if (req.method === "POST") {
 		if (req.body) {
 			if (
