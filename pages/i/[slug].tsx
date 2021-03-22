@@ -45,7 +45,13 @@ type Stats = {
 
 type ChartData = {
 	labels: string[];
-	datasets: { data: number[]; label: "Clicks" }[];
+	datasets: {
+		data: number[];
+		label: string;
+		fill: boolean;
+		borderColor: string;
+		backgroundColor: string;
+	}[];
 };
 
 type State = {
@@ -86,6 +92,9 @@ class EditLink extends Component<Props, State> {
 						{
 							data: [],
 							label: "Clicks",
+							backgroundColor: "hotpink",
+							borderColor: "hotpink",
+							fill: false,
 						},
 					],
 				};
