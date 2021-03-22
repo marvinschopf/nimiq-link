@@ -25,6 +25,8 @@ import Col from "react-bootstrap/Col";
 
 import { getVersion, getAppTitle, getDomains } from "../helpers/meta";
 
+import { usePlausible } from "next-plausible";
+
 import isURL from "validator/lib/isURL";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -56,6 +58,8 @@ const Index: NextPage<Props> = (props: Props) => {
 	const hcaptchaRef: Ref<HCaptcha> = useRef(null);
 	const friendlyCaptchaRef: MutableRefObject<any> = useRef(null);
 	const friendlyCaptchaContainerRef: Ref<any> = useRef(null);
+
+	const plausible = usePlausible();
 
 	useEffect(() => {
 		if (props.mainDomain !== window.location.hostname) {
@@ -162,6 +166,7 @@ const Index: NextPage<Props> = (props: Props) => {
 					if (response.status === 200) {
 						const json = await response.json();
 						if (json.success) {
+							plausible("create");
 							setShortUrl(json.shortUrl);
 							setEditPassword(json.editPassword);
 							setSuccess(true);
