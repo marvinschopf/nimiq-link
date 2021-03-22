@@ -149,7 +149,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		context.res.statusCode = 302;
 		context.res.setHeader(
 			"Location",
-			`/i/${context.params.slug.toString().slice(0, -1)}`
+			`https://${
+				process.env.MAIN_DOMAIN
+			}/i/${context.params.slug.toString().slice(0, -1)}`
 		);
 		return { props: {} };
 	}
