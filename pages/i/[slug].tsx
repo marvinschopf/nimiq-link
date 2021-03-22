@@ -16,7 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { GetStaticPropsContext, GetStaticPropsResult } from "next";
+import {
+	GetStaticPropsContext,
+	GetStaticPropsResult,
+	GetStaticPathsContext,
+	GetStaticPathsResult,
+} from "next";
 import serverlessMysql from "serverless-mysql";
 import Layout from "../../components/Layout";
 import Head from "next/head";
@@ -56,6 +61,15 @@ export async function getStaticProps(
 			appVersion: getVersion(),
 			appTitle: getAppTitle(),
 		},
+	};
+}
+
+export async function getStaticPaths(
+	ctx: GetStaticPathsContext
+): Promise<GetStaticPathsResult> {
+	return {
+		paths: [],
+		fallback: true,
 	};
 }
 
