@@ -149,6 +149,9 @@ const Index: NextPage<Props> = (props: Props) => {
 					}
 					const response = await fetch("/api/create", {
 						method: "POST",
+						headers: {
+							"Content-type": "application/json",
+						},
 						body: JSON.stringify(requestParams),
 					});
 					if (response.status === 200) {

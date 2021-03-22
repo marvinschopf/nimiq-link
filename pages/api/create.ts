@@ -58,29 +58,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 	const domains: string[] = process.env.DOMAINS.split(",");
 	if (req.method === "POST") {
 		if (req.body) {
-			let body;
-			try {
-				body = JSON.parse(req.body);
-			} catch (e) {
-				res.status(400).json({
-					success: false,
-					error: "Missing parameters;",
-				});
-				return;
-			}
 			if (
-				body.destination &&
-				body.domain &&
-				(body.hcaptchaToken || !hcaptchaEnabled) &&
-				(body.friendlyCaptchaToken || !friendlyCaptchaEnabled)
+				req.body.destination &&
+				req.body.domain &&
+				(req.body.hcaptchaToken || !hcaptchaEnabled) &&
+				(req.body.friendlyCaptchaToken || !friendlyCaptchaEnabled)
 			) {
-				const destination: string = body.destination;
-				const domain: string = body.domain;
+				const destination: string = req.body.destination;
+				const domain: string = req.body.domain;
 				const hcaptchaToken: string = hcaptchaEnabled
-					? body.hcaptchaToken
+					? req.body.hcaptchaToken
 					: "";
 				const friendlyCaptchaToken: string = friendlyCaptchaEnabled
-					? body.friendlyCaptchaToken
+					? req.body.friendlyCaptchaToken
 					: "";
 				if (domains.includes(domain)) {
 					if (hcaptchaEnabled) {
