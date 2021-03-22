@@ -162,7 +162,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 	let nonimiq: boolean = false;
 	const isBot: boolean = context.req.headers["user-agent"]
-		? isBot(context.req.headers["user-agent"].toString())
+		? detectBot(context.req.headers["user-agent"].toString())
 		: false;
 	if (process.env.NONIMIQ && process.env.NONIMIQ == "true") nonimiq = true;
 	const mysql: serverlessMysql.ServerlessMysql = serverlessMysql({
