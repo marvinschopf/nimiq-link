@@ -19,7 +19,6 @@
 import { GetServerSideProps } from "next";
 import { FunctionComponent } from "react";
 import serverlessMysql from "serverless-mysql";
-import { v4 as uuidv4 } from "uuid";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -158,8 +157,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 	const result = results[0];
 	await mysql.query(
-		"INSERT INTO clicks (id, link, date, clicks) VALUES (?, ?, CURRENT_DATE(), 1) ON DUPLICATE KEY UPDATE clicks = clicks + 1;",
-		[uuidv4(), result.id]
+		"INSERT INTO clicks (link, date, clicks) VALUES (?, CURRENT_DATE(), 1) ON DUPLICATE KEY UPDATE clicks = clicks + 1;",
+		[result.id]
 	);
 	await mysql.end();
 	if (result.locked === 1) {
