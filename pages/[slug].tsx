@@ -19,11 +19,11 @@
 import { GetServerSideProps } from "next";
 import { FunctionComponent } from "react";
 import serverlessMysql from "serverless-mysql";
+import { v4 as uuidv4 } from "uuid";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "../components/Card";
-import H1 from "../components/H1";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import Fact from "../components/Fact";
 import Layout from "../components/Layout";
@@ -144,6 +144,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		"SELECT destination, locked, lockReason FROM links WHERE active = 1 AND domain = ? AND slug = ? LIMIT 1;",
 		[context.req.headers.host, context.params.slug]
 	);
+	if (results.length === 1) {
+		await mysql.query(
+			"INSERT INTO clicks (id, link, date, clicks) VALUES (?, ?, CURRENT_DATE(), 1) ON DUPLICATE KEY UPDATE clicks = clicks + 1;",
+			[uuidv4(), results[0].id]
+		);
+	}
 	await mysql.end();
 	if (results.length !== 1) {
 		return {

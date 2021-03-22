@@ -50,6 +50,7 @@
 		"singleQuote": false
 	},
 	"browser": {
-		"serverless-mysql": false
+		"serverless-mysql": false,
+		"uuid": false
 	}
 }
