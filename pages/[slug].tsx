@@ -156,6 +156,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 				process.env.MAIN_DOMAIN
 			}/i/${context.params.slug.toString().slice(0, -1)}`
 		);
+		context.res.end();
 		return { props: {} };
 	}
 	let nonimiq: boolean = false;
