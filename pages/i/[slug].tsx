@@ -16,8 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { GetServerSideProps } from "next";
-import { FunctionComponent } from "react";
+import { NextPage } from "next";
 import serverlessMysql from "serverless-mysql";
 import Layout from "../../components/Layout";
 import Head from "next/head";
@@ -28,7 +27,7 @@ type Props = {
 	slug: string;
 };
 
-const EditLink: FunctionComponent<Props> = (props: Props) => {
+const EditLink: NextPage<Props> = (props) => {
 	return (
 		<Layout appTitle={props.appTitle} version={props.appVersion}>
 			<Head>
@@ -39,13 +38,11 @@ const EditLink: FunctionComponent<Props> = (props: Props) => {
 	);
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+EditLink.getInitialProps = async (ctx): Promise<Props> => {
 	return {
-		props: {
-			appTitle: process.env.APP_TITLE,
-			appVersion: process.env.GIT_SHA,
-			slug: context.params.slug,
-		},
+		appTitle: process.env.APP_TITLE,
+		appVersion: process.env.GIT_SHA,
+		slug: ctx.query.slug.toString(),
 	};
 };
 
