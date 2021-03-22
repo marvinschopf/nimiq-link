@@ -51,6 +51,7 @@ type Info = {
 	locked: boolean;
 	lockReason?: string;
 	created: Date;
+	id: string;
 };
 
 type ChartData = {
@@ -70,6 +71,9 @@ type State = {
 	error: string;
 	chartData: ChartData | false;
 	info: Info | false;
+	deleteError: string;
+	deletePassword: string;
+	isDeleting: boolean;
 };
 
 class EditLink extends Component<Props, State> {
@@ -81,6 +85,9 @@ class EditLink extends Component<Props, State> {
 			clicks: false,
 			chartData: false,
 			info: false,
+			deleteError: "",
+			deletePassword: "",
+			isDeleting: false,
 		};
 	}
 
@@ -243,19 +250,101 @@ class EditLink extends Component<Props, State> {
 											<use xlinkHref="/nimiq-style.icons.svg#nq-paper-edit" />
 										</svg>
 									</h1>
+									{this.state.deleteError.length >= 1 && (
+										<p className="nq-notice error">
+											<svg className="nq-icon">
+												<use xlinkHref="/nimiq-style.icons.svg#nq-face-sad" />
+											</svg>{" "}
+											{this.state.deleteError}
+										</p>
+									)}
 								</Card.Header>
 								<Card.Body>
 									<form
-										onSubmit={(event) => {
+										onSubmit={async (event) => {
 											event.preventDefault();
+											this.setState({
+												deleteError: "",
+												deletePassword: "",
+												isDeleting: true,
+											});
+											if (this.state.info === false) {
+												return;
+											}
+											if (
+												this.state.deletePassword
+													.length === 0
+											) {
+												this.setState({
+													deleteError:
+														"Please enter your password.",
+													isDeleting: false,
+												});
+												return;
+											}
 											if (
 												confirm(
 													"Are you sure you want to delete this link permanently? This cannot be undone and is forever."
 												)
 											) {
-												console.log("Delete link");
+												const responseDelete = await fetch(
+													"/api/delete",
+													{
+														method: "POST",
+														headers: {
+															"Content-type":
+																"application/json",
+														},
+														body: JSON.stringify({
+															id: this.state.info
+																.id,
+															password: this.state
+																.deletePassword,
+														}),
+													}
+												);
+												if (
+													responseDelete.status ===
+													200
+												) {
+													const jsonDelete = await responseDelete.json();
+													if (jsonDelete.success) {
+														location.reload();
+													} else {
+														this.setState({
+															isDeleting: false,
+															deleteError: jsonDelete.error
+																? jsonDelete.error
+																: "An unexpected error has occurred.",
+														});
+														return;
+													}
+												} else {
+													let jsonDelete;
+													try {
+														jsonDelete = await responseDelete.json();
+													} catch (e) {
+														this.setState({
+															isDeleting: false,
+															deleteError:
+																"An unexpected error has occurred.",
+														});
+														return;
+													}
+													this.setState({
+														isDeleting: false,
+														deleteError: jsonDelete.error
+															? jsonDelete.error
+															: "An unexpected error has occurred.",
+													});
+													return;
+												}
 											} else {
-												console.log("Do not delete");
+												this.setState({
+													isDeleting: false,
+													deleteError: "Aborted.",
+												});
+												return;
 											}
 										}}
 									>
@@ -268,6 +357,13 @@ class EditLink extends Component<Props, State> {
 												style={{ width: "100%" }}
 												required
 												placeholder="Password"
+												onChange={(event) => {
+													this.setState({
+														deletePassword:
+															event.target.value,
+													});
+												}}
+												disabled={this.state.isDeleting}
 											/>
 										</label>
 										<br />
@@ -275,6 +371,7 @@ class EditLink extends Component<Props, State> {
 											type="submit"
 											className="nq-button red"
 											style={{ width: "100%" }}
+											disabled={this.state.isDeleting}
 										>
 											Delete link permanently
 										</button>
@@ -290,11 +387,15 @@ class EditLink extends Component<Props, State> {
 						<h2 style={{ textAlign: "center" }}></h2>
 					)}
 				{this.state.stats !== false && this.state.stats.length >= 1 && (
-					<Card.Card isFull={true}>
-						<Card.Body>
-							<LineChart data={this.state.chartData} />
-						</Card.Body>
-					</Card.Card>
+					<Row>
+						<Col lg={12} md={12} sm={12}>
+							<Card.Card isFull={true}>
+								<Card.Body>
+									<LineChart data={this.state.chartData} />
+								</Card.Body>
+							</Card.Card>
+						</Col>
+					</Row>
 				)}
 			</Layout>
 		);

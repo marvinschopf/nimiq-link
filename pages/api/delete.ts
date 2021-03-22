@@ -18,6 +18,7 @@
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import serverlessMysql from "serverless-mysql";
+import argon2 from "argon2";
 
 const mysql: serverlessMysql.ServerlessMysql = serverlessMysql({
 	config: {
@@ -30,25 +31,34 @@ const mysql: serverlessMysql.ServerlessMysql = serverlessMysql({
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === "POST") {
-		if (req.body && req.body.slug && req.body.domain) {
+		if (req.body && req.body.id && req.body.password) {
 			const results: any = await mysql.query(
-				"SELECT id, destination, created, locked, lockReason FROM links WHERE slug = ? AND domain = ? AND active = 1;",
-				[req.body.slug.toString(), req.body.domain.toString()]
+				"SELECT id, adminpassword FROM links WHERE id = ? AND active = 1;",
+				[req.body.id.toString()]
 			);
-			await mysql.end();
 			if (results.length === 1) {
-				res.status(200).json({
-					success: true,
-					response: {
-						id: results[0].id,
-						destination: results[0].destination,
-						created: results[0].created,
-						locked: results[0].locked === 1,
-						lockReason: results[0].lockReason
-							? results[0].lockReason
-							: null,
-					},
-				});
+				const result = results[0];
+				if (
+					await argon2.verify(
+						result.adminpassword,
+						req.body.password.toString()
+					)
+				) {
+					await mysql.query(
+						"DELETE FROM links WHERE id = ? AND adminpassword = ? AND active = 1;",
+						[req.body.id.toString(), result.adminpassword]
+					);
+					await mysql.end();
+					res.status(200).json({
+						success: true,
+					});
+				} else {
+					await mysql.end();
+					res.status(403).json({
+						success: false,
+						error: "Wrong password.",
+					});
+				}
 			} else {
 				res.status(404).json({
 					success: false,
