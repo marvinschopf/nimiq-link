@@ -220,18 +220,17 @@ class EditLink extends Component<Props, State> {
 				{this.state.info === false &&
 					this.state.stats === false &&
 					!this.props.is404 &&
-					this.state.error.length ===
-						0(
-							<p
-								className="nq-notice info"
-								style={{ textAlign: "center" }}
-							>
-								<svg className="nq-icon">
-									<use xlinkHref="/nimiq-style.icons.svg#nq-arrow-right-small" />
-								</svg>{" "}
-								<b>Loading link data...</b>
-							</p>
-						)}
+					this.state.error.length === 0 && (
+						<p
+							className="nq-notice info"
+							style={{ textAlign: "center" }}
+						>
+							<svg className="nq-icon">
+								<use xlinkHref="/nimiq-style.icons.svg#nq-arrow-right-small" />
+							</svg>{" "}
+							<b>Loading link data...</b>
+						</p>
+					)}
 				{this.state.info !== false &&
 					this.state.stats === false &&
 					!this.props.is404 && (
