@@ -45,7 +45,9 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 			</Head>
 			<header>
 				<Link href="/">
-					<H1>{props.appTitle}</H1>
+					<a href="/" className="nq-h1">
+						{props.appTitle}
+					</a>
 				</Link>
 			</header>
 			<main>
