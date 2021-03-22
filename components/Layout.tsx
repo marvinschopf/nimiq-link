@@ -81,6 +81,7 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 						}
 						target="_blank"
 						rel="noopener"
+						className="nq-button-s light-blue"
 					>
 						Version:{" "}
 						<code>{props.version ? props.version : "unknown"}</code>
