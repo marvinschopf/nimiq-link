@@ -145,7 +145,10 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	if (context.params.slug.toString().endsWith("+")) {
+	if (
+		context.params.slug.toString().endsWith("+") ||
+		context.req.url.endsWith("+")
+	) {
 		context.res.statusCode = 302;
 		context.res.setHeader(
 			"Location",
