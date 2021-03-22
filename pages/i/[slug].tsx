@@ -217,28 +217,34 @@ class EditLink extends Component<Props, State> {
 				<Head>
 					<meta name="robots" content="noindex" />
 				</Head>
-				{this.state.info === false && this.state.stats === false && (
-					<p
-						className="nq-notice info"
-						style={{ textAlign: "center" }}
-					>
-						<svg className="nq-icon">
-							<use xlinkHref="/nimiq-style.icons.svg#nq-arrow-right-small" />
-						</svg>{" "}
-						<b>Loading link data...</b>
-					</p>
-				)}
-				{this.state.info !== false && this.state.stats === false && (
-					<p
-						className="nq-notice info"
-						style={{ textAlign: "center" }}
-					>
-						<svg className="nq-icon">
-							<use xlinkHref="/nimiq-style.icons.svg#nq-arrow-right-small" />
-						</svg>{" "}
-						<b>Loading statistics...</b>
-					</p>
-				)}
+				{this.state.info === false &&
+					this.state.stats === false &&
+					!this.props.is404 &&
+					this.state.error.length ===
+						0(
+							<p
+								className="nq-notice info"
+								style={{ textAlign: "center" }}
+							>
+								<svg className="nq-icon">
+									<use xlinkHref="/nimiq-style.icons.svg#nq-arrow-right-small" />
+								</svg>{" "}
+								<b>Loading link data...</b>
+							</p>
+						)}
+				{this.state.info !== false &&
+					this.state.stats === false &&
+					!this.props.is404 && (
+						<p
+							className="nq-notice info"
+							style={{ textAlign: "center" }}
+						>
+							<svg className="nq-icon">
+								<use xlinkHref="/nimiq-style.icons.svg#nq-arrow-right-small" />
+							</svg>{" "}
+							<b>Loading statistics...</b>
+						</p>
+					)}
 				{this.state.info && (
 					<Row>
 						<Col lg={6} md={6} sm={12}>
