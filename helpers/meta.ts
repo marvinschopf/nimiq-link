@@ -17,15 +17,19 @@
  */
 
 export const getGitSha = (): string => {
-    return process.env.VERCEL_GIT_COMMIT_SHA ? process.env.VERCEL_GIT_COMMIT_SHA : (process.env.GIT_SHA ? process.env.GIT_SHA : "");
-}
+	return process.env.VERCEL_GIT_COMMIT_SHA
+		? process.env.VERCEL_GIT_COMMIT_SHA
+		: process.env.GIT_SHA
+		? process.env.GIT_SHA
+		: "";
+};
 
 export const getVersion = getGitSha;
 
 export const getAppTitle = (): string => {
-    return process.env.APP_TITLE ? process.env.APP_TITLE : "Nimiq.link";
-}
+	return process.env.APP_TITLE ? process.env.APP_TITLE : "Nimiq.link";
+};
 
 export const getNoNimiq = (): boolean => {
-    return process.env.NONIMIQ ? process.env.NONIMIQ == "true" : false;
-}
+	return process.env.NONIMIQ ? process.env.NONIMIQ == "true" : false;
+};

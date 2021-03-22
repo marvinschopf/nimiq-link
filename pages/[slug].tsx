@@ -22,7 +22,7 @@ import serverlessMysql from "serverless-mysql";
 import detectBot from "isbot";
 import Head from "next/head";
 
-import { getVersion, getAppTitle } from "./../util/meta";
+import { getVersion, getAppTitle } from "../helpers/meta";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";

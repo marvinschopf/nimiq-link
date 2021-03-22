@@ -23,7 +23,7 @@ import Layout from "../components/Layout";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { getVersion, getAppTitle } from "./../util/meta";
+import { getVersion, getAppTitle } from "../helpers/meta";
 
 import isURL from "validator/lib/isURL";
 import HCaptcha from "@hcaptcha/react-hcaptcha";

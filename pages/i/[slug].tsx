@@ -26,7 +26,7 @@ import serverlessMysql from "serverless-mysql";
 import Layout from "../../components/Layout";
 import Head from "next/head";
 import { Component } from "react";
-import { getVersion, getAppTitle } from "./../../util/meta";
+import { getVersion, getAppTitle } from "../../helpers/meta";
 
 type Props = {
 	appTitle: string;
