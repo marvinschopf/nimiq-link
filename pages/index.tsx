@@ -58,7 +58,10 @@ const Index: NextPage<Props> = (props: Props) => {
 	const friendlyCaptchaContainerRef: Ref<any> = useRef(null);
 
 	useEffect(() => {
-		async function createIt() {}
+		if (props.mainDomain !== window.location.hostname) {
+			window.location.replace(props.mainDomain);
+			return;
+		}
 		if (props.enableFrcCaptcha && !props.enableHcaptcha) {
 			if (
 				!friendlyCaptchaRef.current &&
