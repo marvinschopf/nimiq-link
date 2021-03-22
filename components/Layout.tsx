@@ -18,7 +18,6 @@
 
 import { FunctionComponent, ReactNode } from "react";
 import Head from "next/head";
-import Link from "next/link";
 
 import Card from "./Card";
 
@@ -43,9 +42,7 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 				{!props.title && <title>{props.appTitle}</title>}
 			</Head>
 			<header>
-				<h1 className="nq-h1">
-					<Link href="/">{props.appTitle}</Link>
-				</h1>
+				<h1 className="nq-h1">{props.appTitle}</h1>
 			</header>
 			<main>
 				<Card.Card>
