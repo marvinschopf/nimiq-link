@@ -27,6 +27,9 @@ import { Component } from "react";
 import { getVersion, getAppTitle, isValidDomain } from "../../helpers/meta";
 
 import { Line as LineChart } from "react-chartjs-2";
+import Card from "./../../components/Card";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 import { asyncForEach } from "foreach-await";
 
@@ -41,6 +44,13 @@ type Props = {
 type Stats = {
 	date: string;
 	clicks: number;
+};
+
+type Info = {
+	destination: string;
+	locked: boolean;
+	lockReason?: string;
+	created: Date;
 };
 
 type ChartData = {
@@ -59,6 +69,7 @@ type State = {
 	clicks: number[] | false;
 	error: string;
 	chartData: ChartData | false;
+	info: Info | false;
 };
 
 class EditLink extends Component<Props, State> {
@@ -69,10 +80,51 @@ class EditLink extends Component<Props, State> {
 			stats: false,
 			clicks: false,
 			chartData: false,
+			info: false,
 		};
 	}
 
 	async componentDidMount() {
+		const responseInfo = await fetch("/api/info", {
+			method: "POST",
+			headers: {
+				"Content-type": "application/json",
+			},
+			body: JSON.stringify({
+				slug: this.props.slug,
+				domain: this.props.domain,
+			}),
+		});
+		if (responseInfo.status !== 200) {
+			let json;
+			try {
+				json = await responseInfo.json();
+			} catch (e) {
+				this.setState({
+					error: "An unexpected error has occurred.",
+				});
+				return;
+			}
+			this.setState({
+				error: json.error
+					? json.error
+					: "An unexpected error has occurred.",
+			});
+			return;
+		}
+		const jsonInfo = await responseInfo.json();
+		if (jsonInfo.success) {
+			this.setState({
+				info: jsonInfo.response,
+			});
+		} else {
+			this.setState({
+				error: jsonInfo.error
+					? jsonInfo.error
+					: "An unexpected error has occurred.",
+			});
+			return;
+		}
 		const responseStats = await fetch("/api/stats", {
 			method: "POST",
 			headers: {
@@ -84,8 +136,8 @@ class EditLink extends Component<Props, State> {
 			}),
 		});
 		if (responseStats.status === 200) {
-			const json = await responseStats.json();
-			if (json.success) {
+			const jsonStats = await responseStats.json();
+			if (jsonStats.success) {
 				let chartData: ChartData = {
 					labels: [],
 					datasets: [
@@ -98,7 +150,7 @@ class EditLink extends Component<Props, State> {
 						},
 					],
 				};
-				const stats: Stats[] = json.response;
+				const stats: Stats[] = jsonStats.response;
 				await asyncForEach(stats, (stat: Stats) => {
 					chartData.labels.push(
 						new Intl.DateTimeFormat(
@@ -114,8 +166,8 @@ class EditLink extends Component<Props, State> {
 				});
 			} else {
 				this.setState({
-					error: json.error
-						? json.error
+					error: jsonStats.error
+						? jsonStats.error
 						: "An unexpected error has occurred.",
 				});
 				return;
@@ -149,17 +201,85 @@ class EditLink extends Component<Props, State> {
 						? `${this.props.domain}/${this.props.slug}`
 						: "Error 404"
 				}
-				error={this.state.error}
+				error={
+					this.props.is404
+						? "The requested short link could not be found."
+						: this.state.error
+				}
 			>
 				<Head>
 					<meta name="robots" content="noindex" />
 				</Head>
+				{this.state.info && (
+					<Row>
+						<Col lg={6} md={6} sm={12}>
+							<Card.Card isFull={true}>
+								<Card.Header>
+									<h1 className="nq-h1">
+										<svg className="nq-icon">
+											<use xlinkHref="/nimiq-style.icons.svg#nq-info-circle" />
+										</svg>
+									</h1>
+								</Card.Header>
+								<Card.Body>
+									<label>
+										<b>Destination:</b>
+										<br />
+										<input
+											className="nq-input"
+											style={{ width: "100%" }}
+											value={this.state.info.destination}
+											disabled
+										/>
+									</label>
+								</Card.Body>
+							</Card.Card>
+						</Col>
+						<Col lg={6} md={6} sm={12}>
+							<Card.Card isFull={true}>
+								<Card.Header>
+									<h1 className="nq-h1">
+										<svg className="nq-icon">
+											<use xlinkHref="/nimiq-style.icons.svg#nq-paper-edit" />
+										</svg>
+									</h1>
+								</Card.Header>
+								<Card.Body>
+									<form>
+										<label>
+											<b>Password:</b>
+											<br />
+											<input
+												className="nq-input"
+												type="password"
+												style={{ width: "100%" }}
+											/>
+										</label>
+										<br />
+										<button
+											type="submit"
+											className="nq-button red"
+											style={{ width: "100%" }}
+										>
+											Delete link permanently
+										</button>
+									</form>
+								</Card.Body>
+							</Card.Card>
+						</Col>
+						<br />
+					</Row>
+				)}
 				{this.state.stats !== false &&
 					this.state.stats.length === 0 && (
 						<h2 style={{ textAlign: "center" }}></h2>
 					)}
 				{this.state.stats !== false && this.state.stats.length >= 1 && (
-					<LineChart data={this.state.chartData} />
+					<Card.Card isFull={true}>
+						<Card.Body>
+							<LineChart data={this.state.chartData} />
+						</Card.Body>
+					</Card.Card>
 				)}
 			</Layout>
 		);

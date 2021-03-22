@@ -36,10 +36,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 				[req.body.slug.toString(), req.body.domain.toString()]
 			);
 			await mysql.end();
-			res.status(200).json({
-				success: true,
-				response: results,
-			});
+			if (results.length === 1) {
+				res.status(200).json({
+					success: true,
+					response: {
+						destination: results[0].destination,
+						created: results[0].created,
+						locked: results[0].locked === 1,
+						lockReason: results[0].lockReason
+							? results[0].lockReason
+							: null,
+					},
+				});
+			} else {
+				res.status(404).json({
+					success: false,
+					error: "Not found.",
+				});
+			}
 		} else {
 			res.status(400).json({
 				success: false,

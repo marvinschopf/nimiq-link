@@ -22,6 +22,7 @@ type CardProps = {
 	children: ReactNode;
 	className?: string;
 	isUnderform?: boolean;
+	isFull?: boolean;
 };
 
 type CardHeaderProps = {
@@ -35,9 +36,9 @@ type CardBodyProps = {
 export const Card: FunctionComponent<CardProps> = (props: CardProps) => {
 	return (
 		<div
-			className={
-				!props.className ? "nq-card" : `nq-card ${props.className}`
-			}
+			className={`nq-card${props.isFull ? " card-full" : ""}${
+				props.className ? ` ${props.className}` : ""
+			}`}
 			style={props.isUnderform ? { margin: "auto", width: "100%" } : {}}
 		>
 			{props.children}
