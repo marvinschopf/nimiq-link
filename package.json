@@ -16,6 +16,7 @@
 		"argon2": "0.27.1",
 		"bootstrap": "5.0.0-beta2",
 		"friendly-challenge": "0.8.3",
+		"isbot": "3.0.25",
 		"next": "10.0.9",
 		"next-plugin-preact": "3.0.3",
 		"node-fetch": "2.6.1",
@@ -51,6 +52,7 @@
 	},
 	"browser": {
 		"serverless-mysql": false,
-		"uuid": false
+		"uuid": false,
+		"isbot": false
 	}
 }

@@ -19,6 +19,7 @@
 import { GetServerSideProps } from "next";
 import { FunctionComponent } from "react";
 import serverlessMysql from "serverless-mysql";
+import isBot from "isbot";
 import Head from "next/head";
 
 import Row from "react-bootstrap/Row";
@@ -160,6 +161,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		return { props: {} };
 	}
 	let nonimiq: boolean = false;
+	let requestByBot: boolean = false;
+	if (context.req.headers["user-agent"])
+		requestByBot = isBot(context.req.headers["user-agent"]);
 	if (process.env.NONIMIQ && process.env.NONIMIQ == "true") nonimiq = true;
 	const mysql: serverlessMysql.ServerlessMysql = serverlessMysql({
 		config: {
@@ -186,10 +190,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		};
 	}
 	const result = results[0];
-	await mysql.query(
-		"INSERT INTO clicks (link, date, clicks) VALUES (?, CURRENT_DATE(), 1) ON DUPLICATE KEY UPDATE clicks = clicks + 1;",
-		[result.id]
-	);
+	if (!requestByBot)
+		await mysql.query(
+			"INSERT INTO clicks (link, date, clicks) VALUES (?, CURRENT_DATE(), 1) ON DUPLICATE KEY UPDATE clicks = clicks + 1;",
+			[result.id]
+		);
 	await mysql.end();
 	if (result.locked === 1) {
 		return {
@@ -204,7 +209,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			},
 		};
 	}
-	if (!nonimiq) {
+	if (nonimiq || isBot) {
+		context.res.statusCode = 302;
+		context.res.setHeader("Location", result.destination);
+		context.res.end();
+		return { props: {} };
+	} else {
 		return {
 			props: {
 				appTitle: process.env.APP_TITLE,
@@ -215,10 +225,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 				appVersion: process.env.GIT_SHA,
 			},
 		};
-	} else {
-		context.res.statusCode = 302;
-		context.res.setHeader("Location", result.destination);
-		return { props: {} };
 	}
 };
 
