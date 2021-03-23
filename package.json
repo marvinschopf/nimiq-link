@@ -57,6 +57,7 @@
 	"browser": {
 		"serverless-mysql": false,
 		"uuid": false,
-		"isbot": false
+		"isbot": false,
+		"next-plausible": false
 	}
 }
