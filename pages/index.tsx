@@ -68,7 +68,7 @@ const Index: NextPage<Props> = (props: Props) => {
 
 	useEffect(() => {
 		if (props.mainDomain !== window.location.hostname) {
-			window.location.replace(props.mainDomain);
+			window.location.replace(`https://${props.mainDomain}`);
 			return;
 		}
 		if (props.enableFrcCaptcha && !props.enableHcaptcha) {
