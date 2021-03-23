@@ -171,7 +171,17 @@ export const getServerSideProps: GetServerSideProps = async (
 				.slice(0, -1)}`
 		);
 		context.res.end();
-		return;
+		return {
+			props: {
+				appTitle: getAppTitle(),
+				appVersion: getVersion(),
+				isLocked: false,
+				lockReason: "",
+				is404: false,
+				redirectDelay: getRedirectDelay(),
+				destination: "",
+			},
+		};
 	}
 	let nonimiq: boolean = false;
 	const isBot: boolean = context.req.headers["user-agent"]
@@ -227,20 +237,18 @@ export const getServerSideProps: GetServerSideProps = async (
 		context.res.statusCode = 302;
 		context.res.setHeader("Location", result.destination);
 		context.res.end();
-		return;
-	} else {
-		return {
-			props: {
-				appTitle: getAppTitle(),
-				redirectDelay: getRedirectDelay(),
-				destination: result.destination,
-				appVersion: getVersion(),
-				isLocked: false,
-				lockReason: "",
-				is404: false,
-			},
-		};
 	}
+	return {
+		props: {
+			appTitle: getAppTitle(),
+			redirectDelay: getRedirectDelay(),
+			destination: result.destination,
+			appVersion: getVersion(),
+			isLocked: false,
+			lockReason: "",
+			is404: false,
+		},
+	};
 };
 
 export default Redirect;
