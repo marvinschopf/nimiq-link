@@ -26,7 +26,12 @@ import serverlessMysql from "serverless-mysql";
 import detectBot from "isbot";
 import Head from "next/head";
 
-import { getVersion, getAppTitle, getRedirectDelay } from "../helpers/meta";
+import {
+	getVersion,
+	getAppTitle,
+	getRedirectDelay,
+	getMainDomain,
+} from "../helpers/meta";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -161,9 +166,9 @@ export const getServerSideProps: GetServerSideProps = async (
 		context.res.statusCode = 302;
 		context.res.setHeader(
 			"Location",
-			`https://${
-				process.env.MAIN_DOMAIN
-			}/i/${context.params.slug.toString().slice(0, -1)}`
+			`https://${getMainDomain()}/i/${context.params.slug
+				.toString()
+				.slice(0, -1)}`
 		);
 		context.res.end();
 		return;

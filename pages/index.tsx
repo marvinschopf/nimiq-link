@@ -23,7 +23,12 @@ import Layout from "../components/Layout";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { getVersion, getAppTitle, getDomains } from "../helpers/meta";
+import {
+	getVersion,
+	getAppTitle,
+	getDomains,
+	getMainDomain,
+} from "../helpers/meta";
 
 import { usePlausible } from "next-plausible";
 
@@ -419,7 +424,7 @@ export async function getStaticProps(context) {
 	return {
 		props: {
 			domains: getDomains(),
-			mainDomain: process.env.MAIN_DOMAIN ? process.env.MAIN_DOMAIN : "",
+			mainDomain: getMainDomain(),
 			hcaptchaSiteKey: process.env.HCAPTCHA_SITE_KEY
 				? process.env.HCAPTCHA_SITE_KEY
 				: "",
