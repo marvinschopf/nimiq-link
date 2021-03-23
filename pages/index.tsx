@@ -330,7 +330,7 @@ const Index: NextPage<Props> = (props: Props) => {
 										<Row>
 											<Col lg={12} md={12} sm={12}>
 												<input
-													className="nq-input"
+													className="nq-input vanishing"
 													disabled
 													type="url"
 													value={shortUrl}
@@ -365,7 +365,7 @@ const Index: NextPage<Props> = (props: Props) => {
 										<Row>
 											<Col lg={12} md={12} sm={12}>
 												<input
-													className="nq-input"
+													className="nq-input vanishing"
 													disabled
 													type="text"
 													value={editPassword}
@@ -399,7 +399,7 @@ const Index: NextPage<Props> = (props: Props) => {
 											</b>
 											<br />
 											<input
-												className="nq-input"
+												className="nq-input vanishing"
 												disabled
 												type="text"
 												value={`${shortUrl}+`}
