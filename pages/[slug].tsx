@@ -16,13 +16,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { GetServerSideProps } from "next";
+import {
+	GetServerSideProps,
+	GetServerSidePropsContext,
+	GetServerSidePropsResult,
+} from "next";
 import { FunctionComponent } from "react";
 import serverlessMysql from "serverless-mysql";
 import detectBot from "isbot";
 import Head from "next/head";
 
-import { getVersion, getAppTitle } from "../helpers/meta";
+import { getVersion, getAppTitle, getRedirectDelay } from "../helpers/meta";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -147,7 +151,9 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 	);
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (
+	context: GetServerSidePropsContext<{ slug: string }>
+): Promise<GetServerSidePropsResult<Props>> => {
 	if (
 		context.params.slug.toString().endsWith("+") ||
 		context.req.url.endsWith("+")
@@ -160,7 +166,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			}/i/${context.params.slug.toString().slice(0, -1)}`
 		);
 		context.res.end();
-		return { props: {} };
+		return;
 	}
 	let nonimiq: boolean = false;
 	const isBot: boolean = context.req.headers["user-agent"]
@@ -183,11 +189,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		return {
 			props: {
 				appTitle: getAppTitle(),
-				redirectDelay: process.env.REDIRECT_DELAY
-					? parseInt(process.env.REDIRECT_DELAY)
-					: 3,
+				redirectDelay: getRedirectDelay(),
 				is404: true,
 				appVersion: getVersion(),
+				isLocked: false,
+				lockReason: "",
+				destination: "",
 			},
 		};
 	}
@@ -202,12 +209,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		return {
 			props: {
 				appTitle: getAppTitle(),
-				redirectDelay: process.env.REDIRECT_DELAY
-					? parseInt(process.env.REDIRECT_DELAY)
-					: 3,
+				redirectDelay: getRedirectDelay(),
 				isLocked: true,
 				lockReason: result.lockReason ? result.lockReason : "Unknown",
 				appVersion: getVersion(),
+				is404: false,
+				destination: "",
 			},
 		};
 	}
@@ -215,16 +222,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		context.res.statusCode = 302;
 		context.res.setHeader("Location", result.destination);
 		context.res.end();
-		return { props: {} };
+		return;
 	} else {
 		return {
 			props: {
 				appTitle: getAppTitle(),
-				redirectDelay: process.env.REDIRECT_DELAY
-					? parseInt(process.env.REDIRECT_DELAY)
-					: 3,
+				redirectDelay: getRedirectDelay(),
 				destination: result.destination,
 				appVersion: getVersion(),
+				isLocked: false,
+				lockReason: "",
+				is404: false,
 			},
 		};
 	}

@@ -45,3 +45,9 @@ export const getDomains = (): string[] => {
 export const isValidDomain = (domain: string): boolean => {
 	return getDomains().includes(domain);
 };
+
+export const getRedirectDelay = (): number => {
+	return process.env.REDIRECT_DELAY
+		? parseInt(process.env.REDIRECT_DELAY)
+		: 3;
+};
