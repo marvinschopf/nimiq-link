@@ -308,7 +308,6 @@ const Index: NextPage<Props> = (props: Props) => {
 							</Card.Body>
 						</Card.Card>
 					</Col>
-					<br />
 					{success && (
 						<Col lg={6} md={12} sm={12}>
 							<Card.Card className="card-full" isUnderform={true}>
