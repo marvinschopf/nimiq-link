@@ -91,7 +91,18 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 	}
 
 	return (
-		<Layout appTitle={props.appTitle}>
+		<Layout
+			appTitle={props.appTitle}
+			cardTitle={`Redirecting to ${
+				new URL(
+					props.destination.startsWith("https://")
+						? props.destination
+						: props.destination.startsWith("http://")
+						? props.destination
+						: `https://${props.destination}`
+				).hostname
+			}...`}
+		>
 			<Head>
 				<meta
 					http-equiv="refresh"
