@@ -49,6 +49,7 @@ type Props = {
 	redirectDelay: number;
 	destination: string;
 	appVersion: string;
+	isNoNimiq: boolean;
 };
 
 const Redirect: FunctionComponent<Props> = (props: Props) => {
@@ -59,6 +60,7 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 				title="Error 404"
 				error="Unfortunately, the requested short link could not be found."
 				version={props.appVersion}
+				isNoNimiq={props.isNoNimiq}
 			>
 				<Head>
 					<meta name="robots" content="noindex" />
@@ -79,6 +81,8 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 				appTitle={props.appTitle}
 				title="Short link disabled"
 				error={`This short link has been blocked. Reason: ${props.lockReason}`}
+				version={props.appVersion}
+				isNoNimiq={props.isNoNimiq}
 			>
 				<Head>
 					<meta name="robots" content="noindex" />
@@ -103,6 +107,8 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 						: `https://${props.destination}`
 				).hostname
 			}...`}
+			version={props.appVersion}
+			isNoNimiq={props.isNoNimiq}
 		>
 			<Head>
 				<meta
@@ -192,6 +198,7 @@ export const getServerSideProps: GetServerSideProps = async (
 				is404: false,
 				redirectDelay: getRedirectDelay(),
 				destination: "",
+				isNoNimiq: isNoNimiq(),
 			},
 		};
 	}
@@ -220,6 +227,7 @@ export const getServerSideProps: GetServerSideProps = async (
 				isLocked: false,
 				lockReason: "",
 				destination: "",
+				isNoNimiq: isNoNimiq(),
 			},
 		};
 	}
@@ -240,6 +248,7 @@ export const getServerSideProps: GetServerSideProps = async (
 				appVersion: getVersion(),
 				is404: false,
 				destination: "",
+				isNoNimiq: isNoNimiq(),
 			},
 		};
 	}
@@ -257,6 +266,7 @@ export const getServerSideProps: GetServerSideProps = async (
 			isLocked: false,
 			lockReason: "",
 			is404: false,
+			isNoNimiq: isNoNimiq(),
 		},
 	};
 };

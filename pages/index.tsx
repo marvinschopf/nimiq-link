@@ -29,6 +29,7 @@ import {
 	getDomains,
 	getMainDomain,
 	isSafeBrowsingEnabled,
+	isNoNimiq,
 } from "../helpers/meta";
 
 import { usePlausible } from "next-plausible";
@@ -49,6 +50,7 @@ type Props = {
 	friendlyCaptchaKey: string;
 	appVersion: string;
 	safeBrowsingEnabled: boolean;
+	isNoNimiq: boolean;
 };
 
 const Index: NextPage<Props> = (props: Props) => {
@@ -108,6 +110,7 @@ const Index: NextPage<Props> = (props: Props) => {
 			cardTitle="Create short link"
 			error={error}
 			version={props.appVersion}
+			isNoNimiq={props.isNoNimiq}
 		>
 			<form
 				onSubmit={async (event) => {
@@ -452,6 +455,7 @@ export async function getStaticProps(
 			appTitle: getAppTitle(),
 			appVersion: getVersion(),
 			safeBrowsingEnabled: isSafeBrowsingEnabled(),
+			isNoNimiq: isNoNimiq(),
 		},
 	};
 }

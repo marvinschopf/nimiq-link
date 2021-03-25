@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { FunctionComponent, ReactNode } from "react";
+import { Fragment, FunctionComponent, ReactNode } from "react";
 import Head from "next/head";
 
 import Card from "./Card";
@@ -28,6 +28,7 @@ type Props = {
 	appTitle: string;
 	children: ReactNode;
 	version?: string;
+	isNoNimiq?: boolean;
 };
 
 const Layout: FunctionComponent<Props> = (props: Props) => {
@@ -68,41 +69,45 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 			</main>
 			<br />
 			<footer>
-				<div className="float-lg-left float-md-left">
-					<a
-						href={
-							props.version
-								? `https://github.com/marvinschopf/nimiq-link/commit/${props.version}`
-								: "https://github.com/marvinschopf/nimiq-link"
-						}
-						target="_blank"
-						rel="noopener"
-						className="nq-button-s light-blue"
-					>
-						Version:{" "}
-						<code>
-							{props.version
-								? props.version.substring(0, 6)
-								: "unknown"}
-						</code>
-					</a>{" "}
-					<a
-						className="nq-button-pill green"
-						target="_blank"
-						rel="noopener"
-						href="https://github.com/marvinschopf/nimiq-link"
-					>
-						GitHub
-					</a>
-				</div>
-				<a
-					href="https://wallet.nimiq.com/nimiq:NQ848KE9H2L9QSNRYMSTGQML7V5R92FMJC9N"
-					target="_blank"
-					rel="noopener"
-					className="float-lg-right float-md-right nq-button-pill orange"
-				>
-					Donate NIM
-				</a>
+				{!props.isNoNimiq && (
+					<Fragment>
+						<div className="float-lg-left float-md-left">
+							<a
+								href={
+									props.version
+										? `https://github.com/marvinschopf/nimiq-link/commit/${props.version}`
+										: "https://github.com/marvinschopf/nimiq-link"
+								}
+								target="_blank"
+								rel="noopener"
+								className="nq-button-s light-blue"
+							>
+								Version:{" "}
+								<code>
+									{props.version
+										? props.version.substring(0, 6)
+										: "unknown"}
+								</code>
+							</a>{" "}
+							<a
+								className="nq-button-pill green"
+								target="_blank"
+								rel="noopener"
+								href="https://github.com/marvinschopf/nimiq-link"
+							>
+								GitHub
+							</a>
+						</div>
+						<a
+							href="https://wallet.nimiq.com/nimiq:NQ848KE9H2L9QSNRYMSTGQML7V5R92FMJC9N"
+							target="_blank"
+							rel="noopener"
+							className="float-lg-right float-md-right nq-button-pill orange"
+						>
+							Donate NIM
+						</a>
+					</Fragment>
+				)}
 			</footer>
 		</div>
 	);

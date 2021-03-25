@@ -24,7 +24,12 @@ import {
 import Layout from "../../components/Layout";
 import Head from "next/head";
 import { Component } from "react";
-import { getVersion, getAppTitle, isValidDomain } from "../../helpers/meta";
+import {
+	getVersion,
+	getAppTitle,
+	isValidDomain,
+	isNoNimiq,
+} from "../../helpers/meta";
 
 import { Line as LineChart } from "react-chartjs-2";
 import Card from "./../../components/Card";
@@ -39,6 +44,7 @@ type Props = {
 	slug: string;
 	is404: boolean;
 	domain: string;
+	isNoNimiq: boolean;
 };
 
 type Stats = {
@@ -213,6 +219,7 @@ class EditLink extends Component<Props, State> {
 						? "The requested short link could not be found."
 						: this.state.error
 				}
+				isNoNimiq={this.props.isNoNimiq}
 			>
 				<Head>
 					<meta name="robots" content="noindex" />
@@ -441,6 +448,7 @@ export const getServerSideProps: GetServerSideProps = async (
 				slug: "",
 				is404: true,
 				domain: "",
+				isNoNimiq: isNoNimiq(),
 			},
 		};
 	}
@@ -451,6 +459,7 @@ export const getServerSideProps: GetServerSideProps = async (
 			slug: ctx.params.slug,
 			is404: false,
 			domain: ctx.req.headers["host"],
+			isNoNimiq: isNoNimiq(),
 		},
 	};
 };
