@@ -18,6 +18,7 @@
 		"chart.js": "2.9.4",
 		"foreach-await": "1.1.1",
 		"friendly-challenge": "0.8.3",
+		"google-safe-browsing": "1.0.3",
 		"isbot": "3.0.25",
 		"next": "10.0.9",
 		"next-plausible": "1.5.1",

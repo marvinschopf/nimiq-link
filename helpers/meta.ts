@@ -55,3 +55,7 @@ export const getRedirectDelay = (): number => {
 		? parseInt(process.env.REDIRECT_DELAY)
 		: 3;
 };
+
+export const isSafeBrowsingEnabled = (): boolean => {
+	return process.env.GOOGLE_SAFE_BROWSING_KEY ? true : false;
+};

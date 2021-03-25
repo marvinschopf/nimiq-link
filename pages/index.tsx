@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { NextPage } from "next";
+import { NextPage, GetStaticPropsContext, GetStaticPropsResult } from "next";
 import { useState, useRef, useEffect, Ref, MutableRefObject } from "react";
 import Layout from "../components/Layout";
 
@@ -28,6 +28,7 @@ import {
 	getAppTitle,
 	getDomains,
 	getMainDomain,
+	isSafeBrowsingEnabled,
 } from "../helpers/meta";
 
 import { usePlausible } from "next-plausible";
@@ -47,6 +48,7 @@ type Props = {
 	enableFrcCaptcha: boolean;
 	friendlyCaptchaKey: string;
 	appVersion: string;
+	safeBrowsingEnabled: boolean;
 };
 
 const Index: NextPage<Props> = (props: Props) => {
@@ -299,6 +301,16 @@ const Index: NextPage<Props> = (props: Props) => {
 											/>
 										</div>
 									)}
+								{props.safeBrowsingEnabled && (
+									<p>
+										The URL is checked for security on our
+										server by{" "}
+										<a href="https://safebrowsing.google.com">
+											Google Safe Browsing
+										</a>
+										.
+									</p>
+								)}
 								<button
 									type="submit"
 									className="nq-button gold"
@@ -420,7 +432,9 @@ const Index: NextPage<Props> = (props: Props) => {
 	);
 };
 
-export async function getStaticProps(context) {
+export async function getStaticProps(
+	context: GetStaticPropsContext
+): Promise<GetStaticPropsResult<Props>> {
 	return {
 		props: {
 			domains: getDomains(),
@@ -437,6 +451,7 @@ export async function getStaticProps(context) {
 				: "",
 			appTitle: getAppTitle(),
 			appVersion: getVersion(),
+			safeBrowsingEnabled: isSafeBrowsingEnabled(),
 		},
 	};
 }

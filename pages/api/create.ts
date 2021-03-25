@@ -28,6 +28,16 @@ import tldjs from "tldjs";
 import fetch from "node-fetch";
 import serverlessMysql from "serverless-mysql";
 
+import { isSafeBrowsingEnabled } from "./../../helpers/meta";
+
+import { GoogleSafeBrowsingClient } from "google-safe-browsing";
+
+const safeBrowsingClient: GoogleSafeBrowsingClient = new GoogleSafeBrowsingClient(
+	process.env.GOOGLE_SAFE_BROWSING_KEY
+		? process.env.GOOGLE_SAFE_BROWSING_KEY
+		: ""
+);
+
 const mysql: serverlessMysql.ServerlessMysql = serverlessMysql({
 	config: {
 		host: process.env.MYSQL_HOST,
@@ -152,6 +162,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 						res.status(400).json({
 							success: false,
 							error: "Destination is not a valid URL.",
+						});
+						return;
+					}
+					if (
+						isSafeBrowsingEnabled() &&
+						!(await safeBrowsingClient.isUrlSafe(destination))
+					) {
+						res.status(400).json({
+							success: false,
+							error:
+								"URL was detected as dangerous by Google Safe Browsing.",
 						});
 						return;
 					}
