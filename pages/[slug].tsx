@@ -31,6 +31,7 @@ import {
 	getAppTitle,
 	getRedirectDelay,
 	getMainDomain,
+	isNoNimiq,
 } from "../helpers/meta";
 
 import Row from "react-bootstrap/Row";
@@ -194,11 +195,9 @@ export const getServerSideProps: GetServerSideProps = async (
 			},
 		};
 	}
-	let nonimiq: boolean = false;
 	const isBot: boolean = context.req.headers["user-agent"]
 		? detectBot(context.req.headers["user-agent"].toString())
 		: false;
-	if (process.env.NONIMIQ && process.env.NONIMIQ == "true") nonimiq = true;
 	const mysql: serverlessMysql.ServerlessMysql = serverlessMysql({
 		config: {
 			host: process.env.MYSQL_HOST,
@@ -244,7 +243,7 @@ export const getServerSideProps: GetServerSideProps = async (
 			},
 		};
 	}
-	if (nonimiq || isBot) {
+	if (isNoNimiq() || isBot) {
 		context.res.statusCode = 302;
 		context.res.setHeader("Location", result.destination);
 		context.res.end();

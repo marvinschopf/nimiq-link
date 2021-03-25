@@ -59,3 +59,7 @@ export const getRedirectDelay = (): number => {
 export const isSafeBrowsingEnabled = (): boolean => {
 	return process.env.GOOGLE_SAFE_BROWSING_KEY ? true : false;
 };
+
+export const isNoNimiq = (): boolean => {
+	return process.env.NONIMIQ ? process.env.NONIMIQ == "true" : false;
+};
