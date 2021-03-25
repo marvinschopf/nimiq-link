@@ -304,7 +304,7 @@ const Index: NextPage<Props> = (props: Props) => {
 								{props.safeBrowsingEnabled && (
 									<p>
 										The URL is checked for security on our
-										server by{" "}
+										server using{" "}
 										<a href="https://safebrowsing.google.com">
 											Google Safe Browsing
 										</a>
