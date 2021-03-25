@@ -14,7 +14,7 @@
 		"@hcaptcha/react-hcaptcha": "0.3.6",
 		"@nimiq/style": "0.8.3",
 		"argon2": "0.27.1",
-		"bootstrap": "5.0.0-beta2",
+		"bootstrap": "5.0.0-beta3",
 		"chart.js": "2.9.4",
 		"foreach-await": "1.1.1",
 		"friendly-challenge": "0.8.3",
