@@ -63,3 +63,28 @@ export const isSafeBrowsingEnabled = (): boolean => {
 export const isNoNimiq = (): boolean => {
 	return process.env.NONIMIQ ? process.env.NONIMIQ == "true" : false;
 };
+
+export const getGitUrl = (): string => {
+	const provider: string = process.env.VERCEL_GIT_PROVIDER
+		? process.env.VERCEL_GIT_PROVIDER
+		: "github";
+	const repoOwner: string = process.env.VERCEL_GIT_REPO_OWNER
+		? process.env.VERCEL_GIT_REPO_OWNER
+		: "marvinschopf";
+	const repoSlug: string = process.env.VERCEL_GIT_REPO_SLUG
+		? process.env.VERCEL_GIT_REPO_SLUG
+		: "nimiq-link";
+	let providerUrl: string = "";
+	switch (provider) {
+		case "github":
+			providerUrl = "github.com";
+			break;
+		case "gitlab":
+			providerUrl = "gitlab.com";
+			break;
+		default:
+			providerUrl = "github.com";
+			break;
+	}
+	return `https://${providerUrl}/${repoOwner}/${repoSlug}`;
+};

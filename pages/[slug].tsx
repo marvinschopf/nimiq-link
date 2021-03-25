@@ -32,6 +32,7 @@ import {
 	getRedirectDelay,
 	getMainDomain,
 	isNoNimiq,
+	getGitUrl,
 } from "../helpers/meta";
 
 import Row from "react-bootstrap/Row";
@@ -50,6 +51,7 @@ type Props = {
 	destination: string;
 	appVersion: string;
 	isNoNimiq: boolean;
+	repoUrl: string;
 };
 
 const Redirect: FunctionComponent<Props> = (props: Props) => {
@@ -61,6 +63,7 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 				error="Unfortunately, the requested short link could not be found."
 				version={props.appVersion}
 				isNoNimiq={props.isNoNimiq}
+				repoUrl={props.repoUrl}
 			>
 				<Head>
 					<meta name="robots" content="noindex" />
@@ -83,6 +86,7 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 				error={`This short link has been blocked. Reason: ${props.lockReason}`}
 				version={props.appVersion}
 				isNoNimiq={props.isNoNimiq}
+				repoUrl={props.repoUrl}
 			>
 				<Head>
 					<meta name="robots" content="noindex" />
@@ -109,6 +113,7 @@ const Redirect: FunctionComponent<Props> = (props: Props) => {
 			}...`}
 			version={props.appVersion}
 			isNoNimiq={props.isNoNimiq}
+			repoUrl={props.repoUrl}
 		>
 			<Head>
 				<meta
@@ -199,6 +204,7 @@ export const getServerSideProps: GetServerSideProps = async (
 				redirectDelay: getRedirectDelay(),
 				destination: "",
 				isNoNimiq: isNoNimiq(),
+				repoUrl: getGitUrl(),
 			},
 		};
 	}
@@ -228,6 +234,7 @@ export const getServerSideProps: GetServerSideProps = async (
 				lockReason: "",
 				destination: "",
 				isNoNimiq: isNoNimiq(),
+				repoUrl: getGitUrl(),
 			},
 		};
 	}
@@ -249,6 +256,7 @@ export const getServerSideProps: GetServerSideProps = async (
 				is404: false,
 				destination: "",
 				isNoNimiq: isNoNimiq(),
+				repoUrl: getGitUrl(),
 			},
 		};
 	}
@@ -267,6 +275,7 @@ export const getServerSideProps: GetServerSideProps = async (
 			lockReason: "",
 			is404: false,
 			isNoNimiq: isNoNimiq(),
+			repoUrl: getGitUrl(),
 		},
 	};
 };

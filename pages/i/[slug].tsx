@@ -29,6 +29,7 @@ import {
 	getAppTitle,
 	isValidDomain,
 	isNoNimiq,
+	getGitUrl,
 } from "../../helpers/meta";
 
 import { Line as LineChart } from "react-chartjs-2";
@@ -45,6 +46,7 @@ type Props = {
 	is404: boolean;
 	domain: string;
 	isNoNimiq: boolean;
+	repoUrl: string;
 };
 
 type Stats = {
@@ -220,6 +222,7 @@ class EditLink extends Component<Props, State> {
 						: this.state.error
 				}
 				isNoNimiq={this.props.isNoNimiq}
+				repoUrl={this.props.repoUrl}
 			>
 				<Head>
 					<meta name="robots" content="noindex" />
@@ -449,6 +452,7 @@ export const getServerSideProps: GetServerSideProps = async (
 				is404: true,
 				domain: "",
 				isNoNimiq: isNoNimiq(),
+				repoUrl: getGitUrl(),
 			},
 		};
 	}
@@ -460,6 +464,7 @@ export const getServerSideProps: GetServerSideProps = async (
 			is404: false,
 			domain: ctx.req.headers["host"],
 			isNoNimiq: isNoNimiq(),
+			repoUrl: getGitUrl(),
 		},
 	};
 };

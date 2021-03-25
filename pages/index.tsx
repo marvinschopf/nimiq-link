@@ -30,6 +30,7 @@ import {
 	getMainDomain,
 	isSafeBrowsingEnabled,
 	isNoNimiq,
+	getGitUrl,
 } from "../helpers/meta";
 
 import { usePlausible } from "next-plausible";
@@ -51,6 +52,7 @@ type Props = {
 	appVersion: string;
 	safeBrowsingEnabled: boolean;
 	isNoNimiq: boolean;
+	repoUrl: string;
 };
 
 const Index: NextPage<Props> = (props: Props) => {
@@ -111,6 +113,7 @@ const Index: NextPage<Props> = (props: Props) => {
 			error={error}
 			version={props.appVersion}
 			isNoNimiq={props.isNoNimiq}
+			repoUrl={props.repoUrl}
 		>
 			<form
 				onSubmit={async (event) => {
@@ -456,6 +459,7 @@ export async function getStaticProps(
 			appVersion: getVersion(),
 			safeBrowsingEnabled: isSafeBrowsingEnabled(),
 			isNoNimiq: isNoNimiq(),
+			repoUrl: getGitUrl(),
 		},
 	};
 }

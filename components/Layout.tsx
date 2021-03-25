@@ -29,6 +29,7 @@ type Props = {
 	children: ReactNode;
 	version?: string;
 	isNoNimiq?: boolean;
+	repoUrl: string;
 };
 
 const Layout: FunctionComponent<Props> = (props: Props) => {
@@ -107,6 +108,16 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
 							Donate NIM
 						</a>
 					</Fragment>
+				)}
+				{props.isNoNimiq && props.repoUrl && (
+					<a
+						href={props.repoUrl}
+						target="_blank"
+						rel="noopener"
+						className="float-lg-right float-md-right nq-button-pill light-blue"
+					>
+						GitHub
+					</a>
 				)}
 			</footer>
 		</div>
