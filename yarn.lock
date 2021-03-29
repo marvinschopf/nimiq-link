@@ -1921,10 +1921,10 @@ react-copy-to-clipboard@5.0.3:
     copy-to-clipboard "^3"
     prop-types "^15.5.8"
 
-react-countdown-circle-timer@2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/react-countdown-circle-timer/-/react-countdown-circle-timer-2.5.0.tgz#a985a48e017d4ef6d4889188386b3404ecf2ac5f"
-  integrity sha512-fCKGnoaqEwEjQ6IUvDRMHY3DZ8NgxZkEViegHu4vIu77w68HlTtBFsf6KWbJj5nGrbD1413mnmErchuE4BHRxA==
+react-countdown-circle-timer@2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/react-countdown-circle-timer/-/react-countdown-circle-timer-2.5.1.tgz#39da76e91bd78b5424f683ea02a6498f4df66834"
+  integrity sha512-cfzr6dgc/rYFpx3CXXgFnpqti7edFX7eUOP7YPGUfa4MefvrLh8J1zzgVURfVFBDB207PrK7DNK7iYkf2H5YkQ==
   dependencies:
     use-elapsed-time "2.1.6"
 
