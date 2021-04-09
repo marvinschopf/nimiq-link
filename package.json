@@ -21,7 +21,7 @@
 		"google-safe-browsing": "1.0.3",
 		"isbot": "3.0.25",
 		"next": "10.1.2",
-		"next-plausible": "1.5.1",
+		"next-plausible": "1.6.1",
 		"next-plugin-preact": "3.0.4",
 		"node-fetch": "2.6.1",
 		"preact": "10.5.13",
