@@ -1044,10 +1044,10 @@ form-data@^3.0.0:
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
-friendly-challenge@0.8.3:
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/friendly-challenge/-/friendly-challenge-0.8.3.tgz#a36a86d2d37af28a84beaaf7bd6f25d7ecc333e4"
-  integrity sha512-SmNkTEutXme6ILMU094yS1kC0CJrNj8YpYnY9fjopF6x4O18cB6eh6W3vRdK2Y2UK9AJ053yzf6USnoiulJ5iw==
+friendly-challenge@0.8.7:
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/friendly-challenge/-/friendly-challenge-0.8.7.tgz#5880c88965a4f4d17b070aa355bbf0df33d56173"
+  integrity sha512-Ruoyahixsy/R21LcpdDyZG56dpkFCsqpOSZvj0dZV4k7aSD8oZVJSBv9NXPknUfQHRzdv+OW0p0/aYikOHb+Mg==
   dependencies:
     "@babel/runtime-corejs3" "^7.10.4"
     core-js "^3.6.5"
