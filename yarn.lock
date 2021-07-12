@@ -1629,10 +1629,10 @@ needle@^2.5.2:
     iconv-lite "^0.4.4"
     sax "^1.2.4"
 
-next-plausible@1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/next-plausible/-/next-plausible-1.5.1.tgz#6628aed815c1657c98f662c51c166a17580a7498"
-  integrity sha512-9XSAQ9KiHwojEqsMvHyqFEH28GYa3VMS/0FAEOxK0BwclO40HBwcJN6G0Io2Jg7t+wxJm3Qe8YyB5XK6Fysfww==
+next-plausible@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/next-plausible/-/next-plausible-2.0.0.tgz#2f5536ef3945c9a516471c2d5eda68887d447d74"
+  integrity sha512-NaLrAK+LsnEyXz31qy9OjhXZlppp0aWUdKmBPgthrWeGPwLo7ojSWgWU2BzbbUOqi0XVoWjaMa3oNVDfVkyC5w==
 
 next-plugin-preact@3.0.4:
   version "3.0.4"
