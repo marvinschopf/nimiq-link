@@ -1414,10 +1414,10 @@ isarray@1.0.0, isarray@^1.0.0, isarray@~1.0.0:
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
   integrity sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=
 
-isbot@3.0.25:
-  version "3.0.25"
-  resolved "https://registry.yarnpkg.com/isbot/-/isbot-3.0.25.tgz#56c9fe4134016ae84204738b59c0364e7a801f7c"
-  integrity sha512-8mLxO0arSU+JYfcJBbwROCzVhqAdqJSMmsyMDVj4dd7enEevjrNCXjoG0oSkIfZ4icPHuxocO1z3k1oDoI/rbw==
+isbot@3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/isbot/-/isbot-3.2.2.tgz#bbb0ff5ccfab5d54ec3aaa4554fda1e7c4c6712f"
+  integrity sha512-UJMhrEkmMU8cN25r4xG70iBPX6x0syzLgJf5vn1ApBIM/bw+Xs3ZkzYwuVGd0wL59R26C3nIq9XBy/xVT/Lq4Q==
 
 isobject@^2.0.0:
   version "2.1.0"
