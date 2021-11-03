@@ -36,7 +36,7 @@
 		"serverless-mysql": "1.5.4",
 		"tldjs": "2.3.1",
 		"uuid": "8.3.2",
-		"validator": "13.5.2"
+		"validator": "13.7.0"
 	},
 	"devDependencies": {
 		"@types/node": "14.14.37",
