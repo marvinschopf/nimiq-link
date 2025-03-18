@@ -23,14 +23,6 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/runtime-corejs3@^7.10.4":
-  version "7.13.10"
-  resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.13.10.tgz#14c3f4c85de22ba88e8e86685d13e8861a82fe86"
-  integrity sha512-x/XYVQ1h684pp1mJwOV4CyvqZXqbc8CMsMGUnAbuc82ZCdv1U63w5RSUzgDSXQHG5Rps/kiksH6g2D5BuaKyXg==
-  dependencies:
-    core-js-pure "^3.0.0"
-    regenerator-runtime "^0.13.4"
-
 "@babel/runtime@7.12.5":
   version "7.12.5"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
@@ -727,15 +719,10 @@ copy-to-clipboard@^3:
   dependencies:
     toggle-selection "^1.0.6"
 
-core-js-pure@^3.0.0:
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.9.1.tgz#677b322267172bd490e4464696f790cbc355bec5"
-  integrity sha512-laz3Zx0avrw9a4QEIdmIblnVuJz8W51leY9iLThatCsFawWxC3sE4guASC78JbCin+DkwMpCdp1AVAuzL/GN7A==
-
-core-js@^3.6.5:
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.9.1.tgz#cec8de593db8eb2a85ffb0dbdeb312cb6e5460ae"
-  integrity sha512-gSjRvzkxQc1zjM/5paAmL4idJBFzuJoo+jDjF1tStYFMV2ERfD02HhahhCGXUyHxQRG4yFKVSdO6g62eoRMcDg==
+core-js@^3.41.0:
+  version "3.41.0"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.41.0.tgz#57714dafb8c751a6095d028a7428f1fb5834a776"
+  integrity sha512-SJ4/EHwS36QMJd6h/Rg+GyR4A5xE0FSI3eZ+iBVpfqf1x0eTSg1smWLHrA+2jQThZSh97fmSgFSU8B61nxosxA==
 
 core-util-is@~1.0.0:
   version "1.0.2"
@@ -1044,23 +1031,22 @@ form-data@^3.0.0:
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
-friendly-challenge@0.8.3:
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/friendly-challenge/-/friendly-challenge-0.8.3.tgz#a36a86d2d37af28a84beaaf7bd6f25d7ecc333e4"
-  integrity sha512-SmNkTEutXme6ILMU094yS1kC0CJrNj8YpYnY9fjopF6x4O18cB6eh6W3vRdK2Y2UK9AJ053yzf6USnoiulJ5iw==
+friendly-challenge@0.9.19:
+  version "0.9.19"
+  resolved "https://registry.yarnpkg.com/friendly-challenge/-/friendly-challenge-0.9.19.tgz#ef69417c70b6e802dba750d67d9020dbbe515d82"
+  integrity sha512-DyN9Zn/2RyzXtJKFlpuOgsbeNQfFD0jKCaX8Eji4cQwZqOOaGJQK04TX7PXLNg3AvVd8KNQT4lGHRl0JzcBdyA==
   dependencies:
-    "@babel/runtime-corejs3" "^7.10.4"
-    core-js "^3.6.5"
-    friendly-pow "0.1.2"
+    core-js "^3.41.0"
+    friendly-pow "0.2.2"
     object-assign-polyfill "^0.1.0"
     promis "^1.1.4"
     url-polyfill "^1.1.10"
     whatwg-fetch "^3.4.1"
 
-friendly-pow@0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/friendly-pow/-/friendly-pow-0.1.2.tgz#73a2f420d0573690f53f540b2a7d35828104db39"
-  integrity sha512-Ihnr6Ii9zDAPU0ylpRpjiWSIBUApuLOC8JtO7WMhh5Z5Fu+QjQHqZpV5tHwx3/pV3MOW20zSrGvdL05BpxpSjw==
+friendly-pow@0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/friendly-pow/-/friendly-pow-0.2.2.tgz#c3bbcf35dc9ef15e0ee90a30a0cf6eb3beaad4f3"
+  integrity sha512-oTGCqr6d9iIv8TEWmqJK8p1Gkr9hDEgb7g22pTCDZz+Y9zaaWtCNxmrD+/+KIYbf1/64rgba5Vj4hU7AxE/vkA==
 
 fs-minipass@^1.2.5:
   version "1.2.7"
@@ -2181,7 +2167,7 @@ react-countdown-circle-timer@2.5.1:
   dependencies:
     use-elapsed-time "2.1.6"
 
-"react-dom@npm:@preact/compat@0.0.4", "react@npm:@preact/compat@0.0.4":
+"react-dom@npm:@preact/compat@0.0.4":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@preact/compat/-/compat-0.0.4.tgz#f329e41caa330199eaf779c9bc9cf9556e3984a0"
   integrity sha512-NdazvKTisqbua54srMCVGuPwae53SM3u85yxrTymT+eJnScJOIAybDEzyOcAOpJsvo6vnGOiSyxmID7rlGw3nw==
@@ -2229,6 +2215,11 @@ react-transition-group@^4.4.1:
     dom-helpers "^5.0.1"
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
+
+"react@npm:@preact/compat@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@preact/compat/-/compat-0.0.4.tgz#f329e41caa330199eaf779c9bc9cf9556e3984a0"
+  integrity sha512-NdazvKTisqbua54srMCVGuPwae53SM3u85yxrTymT+eJnScJOIAybDEzyOcAOpJsvo6vnGOiSyxmID7rlGw3nw==
 
 readable-stream@2.3.7, readable-stream@^2.0.2, readable-stream@^2.0.6, readable-stream@^2.3.3, readable-stream@^2.3.6:
   version "2.3.7"
